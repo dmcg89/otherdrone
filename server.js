@@ -4,6 +4,7 @@ const client = arDrone.createClient();
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const http    = require('http');
 
 app.use(express.static('public'));
 
@@ -31,6 +32,12 @@ app.get('/calibrate', function(req, res) {
  client.calibrate(0);
  console.log("Drone Calibrating");
  });
+
+ app.get('/flip', function(req, res) {
+  client.animate('flipBehind', 500);
+  console.log("flip");
+  });
+
 
  // This router is sending a command to the drone
 // to cancel all existing commands. Important if
