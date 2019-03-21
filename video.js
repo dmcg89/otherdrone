@@ -1,6 +1,6 @@
 const arDrone = require('ar-drone');
 const express = require('express');
-const client = arDrone.createClient();
+const client = arDrone.createClient(ip:'172.30.1.35');
 const app = express();
 const path = require('path');
 const fs = require('fs');

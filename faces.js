@@ -73,7 +73,7 @@ module.exports = function (app) {
     //includeASearchFace(facelist,sam_url,'Sam');
     //includeASearchFace(facelist,ryan_url,'Ryan');
 
-    runAll('/Users/samharrison/code/droneswarmy/controllers/RyanPhoto.jpg',facelist)
+    runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist)
 
 
 
@@ -100,7 +100,7 @@ module.exports = function (app) {
     });*/
   });
 
-    app.get('/', (req, res) => {
-      res.render("index.handlebars");
-    });
+    // app.get('/', (req, res) => {
+    //   res.render("index.handlebars");
+    // });
 }

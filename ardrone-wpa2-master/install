@@ -1,0 +1,59 @@
+Script started on Thu Mar 21 14:03:20 2019
+]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;32m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004hsscript/install[?1l>[?2004l
+]2;script/install]1;script/install]2;script/install]1;script/installUploading binaries...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 81739    0     0  100 81739      0   281k --:--:-- --:--:-- --:--:--  282k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  242k    0     0  100  242k      0   366k --:--:-- --:--:-- --:--:--  366k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 22 1284k    0     0   22  288k      0   266k  0:00:04  0:00:01  0:00:03  266k 37 1284k    0     0   37  480k      0   218k  0:00:05  0:00:02  0:00:03  218k 38 1284k    0     0   38  493k      0   139k  0:00:09  0:00:03  0:00:06  139k 38 1284k    0     0   38  496k      0   113k  0:00:11  0:00:04  0:00:07  113k 39 1284k    0     0   39  511k      0  92337  0:00:14  0:00:05  0:00:09 92340 46 1284k    0     0   46  603k      0   101k  0:00:12  0:00:05  0:00:07 66138 72 1284k    0     0   72  936k      0   134k  0:00:09  0:00:06  0:00:03 98196100 1284k    0     0  100 1284k      0   155k  0:00:08  0:00:08 --:--:--  167k
+Connection closed by foreign host.
+wpa_supplicant installed.
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;32m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004hsscropt/    ipt/a con nnect "poop" -p "qycs186/" 192.168.43.237 192.168.1.1[K[A[97C[1C[1B[1C[1C[A[97C[1C[1C[1B[1C[?1l>[?2004l
+]2;script/connect "poop" -p "qycs186/" 192.168.43.237 192.168.1.1]1;script/connect]2;script/connect "poop" -p "qycs186/" 192.168.43.237 192.168.1.1]1;script/connectESSID: poop
+PASSWORD: qycs186/
+ADDRESS: 192.168.1.1
+DRONE_IP: 192.168.1.1
+Connection closed by foreign host.
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004httet  ttel; bet   net j  t j  192.169 8.43.106[?1l>[?2004l
+]2;telnet 192.168.43.106]1;telnet]2;telnet 192.168.43.106]1;telnetTrying 192.168.43.106...
+telnet: connect to address 192.168.43.106: Connection refused
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.43.106[?1l>[?2004l
+]2;telnet 192.168.43.106]1;telnet]2;telnet 192.168.43.106]1;telnetTrying 192.168.43.106...
+telnet: connect to address 192.168.43.106: Connection refused
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.43.106[?1l>[?2004l
+]2;telnet 192.168.43.106]1;telnet]2;telnet 192.168.43.106]1;telnetTrying 192.168.43.106...
+telnet: connect to address 192.168.43.106: Connection refused
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.43.106[?1l>[?2004l
+]2;telnet 192.168.43.106]1;telnet]2;telnet 192.168.43.106]1;telnetTrying 192.168.43.106...
+telnet: connect to address 192.168.43.106: Connection refused
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.43.106[?1l>[?2004l
+]2;telnet 192.168.43.106]1;telnet]2;telnet 192.168.43.106]1;telnetTrying 192.168.43.106...
+telnet: connect to address 192.168.43.106: Connection refused
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.43.106          168.`1.   1.,1  1[?1l>[?2004l
+]2;telnet 192.168.1.1]1;telnet]2;telnet 192.168.1.1]1;telnetTrying 192.168.1.1...
+telnet: connect to address 192.168.1.1: Operation timed out
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004httet  ttelnet 192.168.1.1[?1l>[?2004l
+]2;telnet 192.168.1.1]1;telnet]2;telnet 192.168.1.1]1;telnetTrying 192.168.1.1...
+telnet: connect to address 192.168.1.1: Network is unreachable
+telnet: Unable to connect to remote host
+[1m[7m%[27m[1m[0m                                                                                                  ]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master]2;drew@Michaels-MacBook-Pro]1;..e-wpa2-master]7;file://Michaels-MacBook-Pro.local/Users/drew/dev/courses/drone/ardrone-wpa2-master[0m[27m[24m[J[01;31m➜  [36mardrone-wpa2-master[00m [01;34mgit:([31mvideo[34m) [33m✗[00m [K[?1h=[?2004htelnet 192.168.1.1[?1l>[?2004l
+]2;telnet 192.168.1.1]1;telnet]2;telnet 192.168.1.1]1;telnetTrying 192.168.1.1...
+Connected to 192.168.1.1.
+Escape character is '^]'.
+
+
+
+BusyBox v1.14.0 () built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+# # [J

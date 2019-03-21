@@ -1,0 +1,1261 @@
+## Project Oxford for Node.js
+[![npm version](https://badge.fury.io/js/project-oxford.svg)](http://badge.fury.io/js/project-oxford)
+
+This package contains a set of intelligent APIs understanding images: It can detect and analyze people's faces, their age, gender, and similarity. It can identify people based on a set of images. It can understand what is displayed in a picture and crop it according to where the important features are. It can tell you whether an image contains adult content, what the main colors are, and which of your images belong in a group. If your image features text, it will tell you the language and return the text as a string. It's basically magic. For more details on the Project Oxford API, please visit [projectoxford.ai](http://www.projectoxford.ai/demo/face#detection).
+
+This Node module implements Project Oxford's API for Faces, Vision, Text, and WebLM.
+
+![](https://i.imgur.com/Zrsnhd3.jpg)
+
+## Usage
+To install this package, run `npm install --save project-oxford` [and obtain an API key](http://www.projectoxford.ai/doc/general/subscription-key-mgmt). To obtain such a key, [you will also need an (free) Microsoft Azure Account](http://www.azure.com). Once you got your key, you can instantiate an Oxford client in your code:
+
+```
+var oxford = require('project-oxford'),
+    client = new oxford.Client('7fb073s72bh72663y5ddh129m12e598d');
+```
+
+Now that you got your client running, you're ready to do some pretty smart stuff. Have a picture of a person and want a computed guess of their age and gender?
+
+```
+client.face.detect({
+    path: 'myFolder/myFace.jpg',
+    analyzesAge: true,
+    analyzesGender: true
+}).then(function (response) {
+    console.log('The age is: ' + response[0].faceAttributes.age);
+    console.log('The gender is: ' + response[0].faceAttributes.gender);
+});
+```
+Have a picture of a person and want a computed guess about their emotions?
+
+```
+client.emotion.analyzeEmotion({
+    path: './myFace.jpg',
+}).then(function (response) {
+    console.log(response);
+});
+```
+Or, you can add the rectangle of the face yourself, in the form "left,top,width,height". Delimited multiple face rectangles with a “;”.
+
+```
+client.emotion.analyzeEmotion({
+    path: './myFace.jpg',
+    faceRectangles: '10, 10, 100, 100'
+}).then(function (response) {
+    console.log(response);
+});
+```
+Creating a smart-cropped thumbnail:
+```
+client.vision.thumbnail({
+    path: './photo.jpg',
+    height: 150,
+    width: 150,
+    smartCropping: true,
+    pipe: fs.createWriteStream('./photo2.jpg')
+});
+```
+
+Running OCR on an image, returning the text on the image:
+```
+client.vision.ocr({
+    path: './test/images/ocr.jpg',
+    language: 'en'
+}).then(function (response) {
+    console.log(response.body);
+});
+```
+
+For the full documentation, please see the API reference below.
+
+<a name="Client"></a>
+
+## Client
+**Kind**: global class  
+
+* [Client](#Client)
+    * [new Client(key, hostOrRegion)](#new_Client_new)
+    * [.emotion](#Client.emotion) : <code>object</code>
+        * [~analyzeEmotion(options)](#Client.emotion..analyzeEmotion) ⇒ <code>Promise</code>
+    * [.face](#Client.face) : <code>object</code>
+        * _static_
+            * [.faceList](#Client.face.faceList) : <code>object</code>
+                * [.list()](#Client.face.faceList.list) ⇒ <code>Promise</code>
+                * [.create(faceListId, options)](#Client.face.faceList.create) ⇒ <code>Promise</code>
+                * [.update(faceListId, options)](#Client.face.faceList.update) ⇒ <code>Promise</code>
+                * [.delete(faceListId)](#Client.face.faceList.delete) ⇒ <code>Promise</code>
+                * [.get(faceListId)](#Client.face.faceList.get) ⇒ <code>Promise</code>
+                * [.addFace(faceListId, options)](#Client.face.faceList.addFace) ⇒ <code>Promise</code>
+                * [.deleteFace(faceListId, persistedFaceId)](#Client.face.faceList.deleteFace) ⇒ <code>Promise</code>
+            * [.personGroup](#Client.face.personGroup) : <code>object</code>
+                * [.create(personGroupId, name, userData)](#Client.face.personGroup.create) ⇒ <code>Promise</code>
+                * [.delete(personGroupId)](#Client.face.personGroup.delete) ⇒ <code>Promise</code>
+                * [.get(personGroupId)](#Client.face.personGroup.get) ⇒ <code>Promise</code>
+                * [.trainingStatus(personGroupId)](#Client.face.personGroup.trainingStatus) ⇒ <code>Promise</code>
+                * [.trainingStart(personGroupId)](#Client.face.personGroup.trainingStart) ⇒ <code>Promise</code>
+                * [.update(personGroupId, name, userData)](#Client.face.personGroup.update) ⇒ <code>Promise</code>
+                * [.list(options)](#Client.face.personGroup.list) ⇒ <code>Promise</code>
+            * [.person](#Client.face.person) : <code>object</code>
+                * [.addFace(personGroupId, personId, options)](#Client.face.person.addFace) ⇒ <code>Promise</code>
+                * [.deleteFace(personGroupId, personId, persistedFaceId)](#Client.face.person.deleteFace) ⇒ <code>Promise</code>
+                * [.updateFace(personGroupId, personId, persistedFaceId, userData)](#Client.face.person.updateFace) ⇒ <code>Promise</code>
+                * [.getFace(personGroupId, personId, persistedFaceId)](#Client.face.person.getFace) ⇒ <code>Promise</code>
+                * [.create(personGroupId, name, userData)](#Client.face.person.create) ⇒ <code>Promise</code>
+                * [.delete(personGroupId, personId)](#Client.face.person.delete) ⇒ <code>Promise</code>
+                * [.get(personGroupId, personId)](#Client.face.person.get) ⇒ <code>Promise</code>
+                * [.update(personGroupId, personId, name, userData)](#Client.face.person.update) ⇒ <code>Promise</code>
+                * [.list(personGroupId)](#Client.face.person.list) ⇒ <code>Promise</code>
+            * [.largePersonGroup](#Client.face.largePersonGroup) : <code>object</code>
+                * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.create) ⇒ <code>Promise</code>
+                * [.delete(largePersonGroupId)](#Client.face.largePersonGroup.delete) ⇒ <code>Promise</code>
+                * [.get(largePersonGroupId)](#Client.face.largePersonGroup.get) ⇒ <code>Promise</code>
+                * [.trainingStatus(largePersonGroupId)](#Client.face.largePersonGroup.trainingStatus) ⇒ <code>Promise</code>
+                * [.trainingStart(largePersonGroupId)](#Client.face.largePersonGroup.trainingStart) ⇒ <code>Promise</code>
+                * [.update(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.update) ⇒ <code>Promise</code>
+                * [.list(options)](#Client.face.largePersonGroup.list) ⇒ <code>Promise</code>
+            * [.largePersonGroupPerson](#Client.face.largePersonGroupPerson) : <code>object</code>
+                * [.addFace(largePersonGroupId, personId, options)](#Client.face.largePersonGroupPerson.addFace) ⇒ <code>Promise</code>
+                * [.deleteFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.deleteFace) ⇒ <code>Promise</code>
+                * [.updateFace(largePersonGroupId, personId, persistedFaceId, userData)](#Client.face.largePersonGroupPerson.updateFace) ⇒ <code>Promise</code>
+                * [.getFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.getFace) ⇒ <code>Promise</code>
+                * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroupPerson.create) ⇒ <code>Promise</code>
+                * [.delete(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.delete) ⇒ <code>Promise</code>
+                * [.get(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.get) ⇒ <code>Promise</code>
+                * [.update(largePersonGroupId, personId, name, userData)](#Client.face.largePersonGroupPerson.update) ⇒ <code>Promise</code>
+                * [.list(largePersonGroupId)](#Client.face.largePersonGroupPerson.list) ⇒ <code>Promise</code>
+        * _inner_
+            * [~detect(options)](#Client.face..detect) ⇒ <code>Promise</code>
+            * [~similar(sourceFace, options)](#Client.face..similar) ⇒ <code>Promise</code>
+            * [~grouping(faces)](#Client.face..grouping) ⇒ <code>Promise</code>
+            * [~identify(faces, options)](#Client.face..identify) ⇒ <code>Promise</code>
+            * [~verify(faces)](#Client.face..verify) ⇒ <code>Promise</code>
+    * [.text](#Client.text) : <code>object</code>
+        * [~proof(text, preContextText, postContextText, market)](#Client.text..proof) ⇒ <code>Promise</code>
+        * [~spellCheck(text, preContextText, postContextText, market)](#Client.text..spellCheck) ⇒ <code>Promise</code>
+    * [.vision](#Client.vision) : <code>object</code>
+        * _static_
+            * [.result](#Client.vision.result)
+                * [.get(operation)](#Client.vision.result.get) ⇒ <code>Promise</code>
+            * [.models](#Client.vision.models) : <code>object</code>
+                * [.list()](#Client.vision.models.list) ⇒ <code>Promise</code>
+                * [.analyzeImage(model, options)](#Client.vision.models.analyzeImage) ⇒ <code>Promise</code>
+        * _inner_
+            * [~analyzeImage(options)](#Client.vision..analyzeImage) ⇒ <code>Promise</code>
+            * [~thumbnail(options)](#Client.vision..thumbnail) ⇒ <code>Promise</code>
+            * [~ocr(options)](#Client.vision..ocr) ⇒ <code>Promise</code>
+            * [~recognizeText(options)](#Client.vision..recognizeText) ⇒ <code>Promise</code>
+    * [.weblm](#Client.weblm) : <code>object</code>
+        * [~listModels()](#Client.weblm..listModels) ⇒ <code>Promise</code>
+        * [~breakIntoWords(model, text, options)](#Client.weblm..breakIntoWords) ⇒ <code>Promise</code>
+        * [~generateWords(model, words, options)](#Client.weblm..generateWords) ⇒ <code>Promise</code>
+        * [~getJointProbabilities(model, phrases, order)](#Client.weblm..getJointProbabilities) ⇒ <code>Promise</code>
+        * [~getConditionalProbabilities(model, queries, order)](#Client.weblm..getConditionalProbabilities) ⇒ <code>Promise</code>
+
+<a name="new_Client_new"></a>
+
+### new Client(key, hostOrRegion)
+Creates a new Project Oxford Client using a given API key.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | Project Oxford API Key |
+| hostOrRegion | <code>string</code> | Optional host address or region |
+
+<a name="Client.emotion"></a>
+
+### Client.emotion : <code>object</code>
+**Kind**: static namespace of <code>[Client](#Client)</code>  
+<a name="Client.emotion..analyzeEmotion"></a>
+
+#### emotion~analyzeEmotion(options) ⇒ <code>Promise</code>
+Analyze the emotions of one or more faces in an image.
+
+**Kind**: inner method of <code>[emotion](#Client.emotion)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Options object |
+| options.url | <code>string</code> | URL to the image file |
+| options.path | <code>string</code> | URL to a local image file |
+| options.data | <code>string</code> | Image as a binary buffer |
+| options.faceRectangles | <code>Array.&lt;Object&gt;</code> | Array of face rectangles.  Face rectangles      are returned in the face.detect and vision.analyzeImage methods. |
+
+<a name="Client.face"></a>
+
+### Client.face : <code>object</code>
+**Kind**: static namespace of <code>[Client](#Client)</code>  
+
+* [.face](#Client.face) : <code>object</code>
+    * _static_
+        * [.faceList](#Client.face.faceList) : <code>object</code>
+            * [.list()](#Client.face.faceList.list) ⇒ <code>Promise</code>
+            * [.create(faceListId, options)](#Client.face.faceList.create) ⇒ <code>Promise</code>
+            * [.update(faceListId, options)](#Client.face.faceList.update) ⇒ <code>Promise</code>
+            * [.delete(faceListId)](#Client.face.faceList.delete) ⇒ <code>Promise</code>
+            * [.get(faceListId)](#Client.face.faceList.get) ⇒ <code>Promise</code>
+            * [.addFace(faceListId, options)](#Client.face.faceList.addFace) ⇒ <code>Promise</code>
+            * [.deleteFace(faceListId, persistedFaceId)](#Client.face.faceList.deleteFace) ⇒ <code>Promise</code>
+        * [.personGroup](#Client.face.personGroup) : <code>object</code>
+            * [.create(personGroupId, name, userData)](#Client.face.personGroup.create) ⇒ <code>Promise</code>
+            * [.delete(personGroupId)](#Client.face.personGroup.delete) ⇒ <code>Promise</code>
+            * [.get(personGroupId)](#Client.face.personGroup.get) ⇒ <code>Promise</code>
+            * [.trainingStatus(personGroupId)](#Client.face.personGroup.trainingStatus) ⇒ <code>Promise</code>
+            * [.trainingStart(personGroupId)](#Client.face.personGroup.trainingStart) ⇒ <code>Promise</code>
+            * [.update(personGroupId, name, userData)](#Client.face.personGroup.update) ⇒ <code>Promise</code>
+            * [.list(options)](#Client.face.personGroup.list) ⇒ <code>Promise</code>
+        * [.person](#Client.face.person) : <code>object</code>
+            * [.addFace(personGroupId, personId, options)](#Client.face.person.addFace) ⇒ <code>Promise</code>
+            * [.deleteFace(personGroupId, personId, persistedFaceId)](#Client.face.person.deleteFace) ⇒ <code>Promise</code>
+            * [.updateFace(personGroupId, personId, persistedFaceId, userData)](#Client.face.person.updateFace) ⇒ <code>Promise</code>
+            * [.getFace(personGroupId, personId, persistedFaceId)](#Client.face.person.getFace) ⇒ <code>Promise</code>
+            * [.create(personGroupId, name, userData)](#Client.face.person.create) ⇒ <code>Promise</code>
+            * [.delete(personGroupId, personId)](#Client.face.person.delete) ⇒ <code>Promise</code>
+            * [.get(personGroupId, personId)](#Client.face.person.get) ⇒ <code>Promise</code>
+            * [.update(personGroupId, personId, name, userData)](#Client.face.person.update) ⇒ <code>Promise</code>
+            * [.list(personGroupId)](#Client.face.person.list) ⇒ <code>Promise</code>
+        * [.largePersonGroup](#Client.face.largePersonGroup) : <code>object</code>
+            * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.create) ⇒ <code>Promise</code>
+            * [.delete(largePersonGroupId)](#Client.face.largePersonGroup.delete) ⇒ <code>Promise</code>
+            * [.get(largePersonGroupId)](#Client.face.largePersonGroup.get) ⇒ <code>Promise</code>
+            * [.trainingStatus(largePersonGroupId)](#Client.face.largePersonGroup.trainingStatus) ⇒ <code>Promise</code>
+            * [.trainingStart(largePersonGroupId)](#Client.face.largePersonGroup.trainingStart) ⇒ <code>Promise</code>
+            * [.update(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.update) ⇒ <code>Promise</code>
+            * [.list(options)](#Client.face.largePersonGroup.list) ⇒ <code>Promise</code>
+        * [.largePersonGroupPerson](#Client.face.largePersonGroupPerson) : <code>object</code>
+            * [.addFace(largePersonGroupId, personId, options)](#Client.face.largePersonGroupPerson.addFace) ⇒ <code>Promise</code>
+            * [.deleteFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.deleteFace) ⇒ <code>Promise</code>
+            * [.updateFace(largePersonGroupId, personId, persistedFaceId, userData)](#Client.face.largePersonGroupPerson.updateFace) ⇒ <code>Promise</code>
+            * [.getFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.getFace) ⇒ <code>Promise</code>
+            * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroupPerson.create) ⇒ <code>Promise</code>
+            * [.delete(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.delete) ⇒ <code>Promise</code>
+            * [.get(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.get) ⇒ <code>Promise</code>
+            * [.update(largePersonGroupId, personId, name, userData)](#Client.face.largePersonGroupPerson.update) ⇒ <code>Promise</code>
+            * [.list(largePersonGroupId)](#Client.face.largePersonGroupPerson.list) ⇒ <code>Promise</code>
+    * _inner_
+        * [~detect(options)](#Client.face..detect) ⇒ <code>Promise</code>
+        * [~similar(sourceFace, options)](#Client.face..similar) ⇒ <code>Promise</code>
+        * [~grouping(faces)](#Client.face..grouping) ⇒ <code>Promise</code>
+        * [~identify(faces, options)](#Client.face..identify) ⇒ <code>Promise</code>
+        * [~verify(faces)](#Client.face..verify) ⇒ <code>Promise</code>
+
+<a name="Client.face.faceList"></a>
+
+#### face.faceList : <code>object</code>
+**Kind**: static namespace of <code>[face](#Client.face)</code>  
+
+* [.faceList](#Client.face.faceList) : <code>object</code>
+    * [.list()](#Client.face.faceList.list) ⇒ <code>Promise</code>
+    * [.create(faceListId, options)](#Client.face.faceList.create) ⇒ <code>Promise</code>
+    * [.update(faceListId, options)](#Client.face.faceList.update) ⇒ <code>Promise</code>
+    * [.delete(faceListId)](#Client.face.faceList.delete) ⇒ <code>Promise</code>
+    * [.get(faceListId)](#Client.face.faceList.get) ⇒ <code>Promise</code>
+    * [.addFace(faceListId, options)](#Client.face.faceList.addFace) ⇒ <code>Promise</code>
+    * [.deleteFace(faceListId, persistedFaceId)](#Client.face.faceList.deleteFace) ⇒ <code>Promise</code>
+
+<a name="Client.face.faceList.list"></a>
+
+##### faceList.list() ⇒ <code>Promise</code>
+Lists the faceListIds, and associated names and/or userData.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+<a name="Client.face.faceList.create"></a>
+
+##### faceList.create(faceListId, options) ⇒ <code>Promise</code>
+Creates a new face list with a user-specified ID.
+A face list is a list of faces associated to be associated with a given person.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | Numbers, en-us letters in lower case, '-', '_'. Max length: 64 |
+| options | <code>object</code> | Optional parameters |
+| options.name | <code>string</code> | Name of the face List |
+| options.userData | <code>string</code> | User-provided data associated with the face list. |
+
+<a name="Client.face.faceList.update"></a>
+
+##### faceList.update(faceListId, options) ⇒ <code>Promise</code>
+Creates a new person group with a user-specified ID.
+A person group is one of the most important parameters for the Identification API.
+The Identification searches person faces in a specified person group.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | Numbers, en-us letters in lower case, '-', '_'. Max length: 64 |
+| options | <code>object</code> | Optional parameters |
+| options.name | <code>string</code> | Name of the face List |
+| options.userData | <code>string</code> | User-provided data associated with the face list. |
+
+<a name="Client.face.faceList.delete"></a>
+
+##### faceList.delete(faceListId) ⇒ <code>Promise</code>
+Deletes an existing person group.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | ID of face list to delete |
+
+<a name="Client.face.faceList.get"></a>
+
+##### faceList.get(faceListId) ⇒ <code>Promise</code>
+Gets an existing face list.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | ID of face list to retrieve |
+
+<a name="Client.face.faceList.addFace"></a>
+
+##### faceList.addFace(faceListId, options) ⇒ <code>Promise</code>
+Gets an existing face list.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | ID of face list to retrieve |
+| options | <code>object</code> | Options object |
+| options.url | <code>string</code> | URL to image to be used |
+| options.path | <code>string</code> | Path to image to be used |
+| options.data | <code>string</code> | Image as a binary buffer |
+| options.name | <code>string</code> | Optional name for the face |
+| options.userData | <code>string</code> | Optional user-data for the face |
+| options.targetFace | <code>string</code> | Optional face rectangle to specify the target face to be added into the face list, in the format of "targetFace=left,top,width,height". |
+
+<a name="Client.face.faceList.deleteFace"></a>
+
+##### faceList.deleteFace(faceListId, persistedFaceId) ⇒ <code>Promise</code>
+Delete a face from the face list.  The face ID will be an ID returned in the addFace method,
+not from the detect method.
+
+**Kind**: static method of <code>[faceList](#Client.face.faceList)</code>  
+**Returns**: <code>Promise</code> - - Promise; successful response is empty  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faceListId | <code>string</code> | ID of face list to retrieve |
+| persistedFaceId | <code>string</code> | ID of face in the face list |
+
+<a name="Client.face.personGroup"></a>
+
+#### face.personGroup : <code>object</code>
+**Kind**: static namespace of <code>[face](#Client.face)</code>  
+
+* [.personGroup](#Client.face.personGroup) : <code>object</code>
+    * [.create(personGroupId, name, userData)](#Client.face.personGroup.create) ⇒ <code>Promise</code>
+    * [.delete(personGroupId)](#Client.face.personGroup.delete) ⇒ <code>Promise</code>
+    * [.get(personGroupId)](#Client.face.personGroup.get) ⇒ <code>Promise</code>
+    * [.trainingStatus(personGroupId)](#Client.face.personGroup.trainingStatus) ⇒ <code>Promise</code>
+    * [.trainingStart(personGroupId)](#Client.face.personGroup.trainingStart) ⇒ <code>Promise</code>
+    * [.update(personGroupId, name, userData)](#Client.face.personGroup.update) ⇒ <code>Promise</code>
+    * [.list(options)](#Client.face.personGroup.list) ⇒ <code>Promise</code>
+
+<a name="Client.face.personGroup.create"></a>
+
+##### personGroup.create(personGroupId, name, userData) ⇒ <code>Promise</code>
+Creates a new person group with a user-specified ID.
+A person group is one of the most important parameters for the Identification API.
+The Identification searches person faces in a specified person group.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Numbers, en-us letters in lower case, '-', '_'. Max length: 64 |
+| name | <code>string</code> | Person group display name. The maximum length is 128. |
+| userData | <code>string</code> | User-provided data attached to the group. The size limit is 16KB. |
+
+<a name="Client.face.personGroup.delete"></a>
+
+##### personGroup.delete(personGroupId) ⇒ <code>Promise</code>
+Deletes an existing person group.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Name of person group to delete |
+
+<a name="Client.face.personGroup.get"></a>
+
+##### personGroup.get(personGroupId) ⇒ <code>Promise</code>
+Gets an existing person group.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Name of person group to get |
+
+<a name="Client.face.personGroup.trainingStatus"></a>
+
+##### personGroup.trainingStatus(personGroupId) ⇒ <code>Promise</code>
+Retrieves the training status of a person group. Training is triggered by the Train PersonGroup API.
+The training will process for a while on the server side. This API can query whether the training
+is completed or ongoing.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Name of person group to get |
+
+<a name="Client.face.personGroup.trainingStart"></a>
+
+##### personGroup.trainingStart(personGroupId) ⇒ <code>Promise</code>
+Starts a person group training.
+Training is a necessary preparation process of a person group before identification.
+Each person group needs to be trained in order to call Identification. The training
+will process for a while on the server side even after this API has responded.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Name of person group to get |
+
+<a name="Client.face.personGroup.update"></a>
+
+##### personGroup.update(personGroupId, name, userData) ⇒ <code>Promise</code>
+Updates an existing person group's display name and userData.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | Numbers, en-us letters in lower case, '-', '_'. Max length: 64 |
+| name | <code>string</code> | Person group display name. The maximum length is 128. |
+| userData | <code>string</code> | User-provided data attached to the group. The size limit is 16KB. |
+
+<a name="Client.face.personGroup.list"></a>
+
+##### personGroup.list(options) ⇒ <code>Promise</code>
+List person groups’s pesonGroupId, name, and userData.
+
+**Kind**: static method of <code>[personGroup](#Client.face.personGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | List opentions |
+| options.start | <code>string</code> | List person groups from the least personGroupId greater than the "start". It contains no more than 64 characters. Default is empty. |
+| options.top | <code>integer</code> | The number of person groups to list, ranging in [1, 1000]. Default is 1000. |
+
+<a name="Client.face.person"></a>
+
+#### face.person : <code>object</code>
+**Kind**: static namespace of <code>[face](#Client.face)</code>  
+
+* [.person](#Client.face.person) : <code>object</code>
+    * [.addFace(personGroupId, personId, options)](#Client.face.person.addFace) ⇒ <code>Promise</code>
+    * [.deleteFace(personGroupId, personId, persistedFaceId)](#Client.face.person.deleteFace) ⇒ <code>Promise</code>
+    * [.updateFace(personGroupId, personId, persistedFaceId, userData)](#Client.face.person.updateFace) ⇒ <code>Promise</code>
+    * [.getFace(personGroupId, personId, persistedFaceId)](#Client.face.person.getFace) ⇒ <code>Promise</code>
+    * [.create(personGroupId, name, userData)](#Client.face.person.create) ⇒ <code>Promise</code>
+    * [.delete(personGroupId, personId)](#Client.face.person.delete) ⇒ <code>Promise</code>
+    * [.get(personGroupId, personId)](#Client.face.person.get) ⇒ <code>Promise</code>
+    * [.update(personGroupId, personId, name, userData)](#Client.face.person.update) ⇒ <code>Promise</code>
+    * [.list(personGroupId)](#Client.face.person.list) ⇒ <code>Promise</code>
+
+<a name="Client.face.person.addFace"></a>
+
+##### person.addFace(personGroupId, personId, options) ⇒ <code>Promise</code>
+Adds a face to a person for identification. The maximum face count for each person is 248.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person that the face is added to. |
+| options | <code>object</code> | The source specification. |
+| options.url | <code>string</code> | URL to image to be used. |
+| options.path | <code>string</code> | Path to image to be used. |
+| options.data | <code>string</code> | Image as a binary buffer |
+| options.userData | <code>string</code> | Optional. Attach user data to person's face. The maximum length is 1024. |
+| options.targetFace | <code>object</code> | Optional. The rectangle of the face in the image. |
+
+<a name="Client.face.person.deleteFace"></a>
+
+##### person.deleteFace(personGroupId, personId, persistedFaceId) ⇒ <code>Promise</code>
+Deletes a face from a person.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise; successful response is empty  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person that the face is removed from. |
+| persistedFaceId | <code>string</code> | The ID of the face to be deleted. |
+
+<a name="Client.face.person.updateFace"></a>
+
+##### person.updateFace(personGroupId, personId, persistedFaceId, userData) ⇒ <code>Promise</code>
+Updates a face for a person.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person that the face is updated on. |
+| persistedFaceId | <code>string</code> | The ID of the face to be updated. |
+| userData | <code>string</code> | Optional. Attach user data to person's face. The maximum length is 1024. |
+
+<a name="Client.face.person.getFace"></a>
+
+##### person.getFace(personGroupId, personId, persistedFaceId) ⇒ <code>Promise</code>
+Get a face for a person.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person that the face is to get from. |
+| persistedFaceId | <code>string</code> | The ID of the face to get. |
+
+<a name="Client.face.person.create"></a>
+
+##### person.create(personGroupId, name, userData) ⇒ <code>Promise</code>
+Creates a new person in a specified person group for identification.
+The number of persons has a subscription limit. Free subscription amount is 1000 persons.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| name | <code>string</code> | Target person's display name. The maximum length is 128. |
+| userData | <code>string</code> | Optional fields for user-provided data attached to a person. Size limit is 16KB. |
+
+<a name="Client.face.person.delete"></a>
+
+##### person.delete(personGroupId, personId) ⇒ <code>Promise</code>
+Deletes an existing person from a person group.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person to delete. |
+
+<a name="Client.face.person.get"></a>
+
+##### person.get(personGroupId, personId) ⇒ <code>Promise</code>
+Gets an existing person from a person group.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person to get. |
+
+<a name="Client.face.person.update"></a>
+
+##### person.update(personGroupId, personId, name, userData) ⇒ <code>Promise</code>
+Updates a person's information.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| personId | <code>string</code> | The target person's id. |
+| name | <code>string</code> | Target person's display name. The maximum length is 128. |
+| userData | <code>string</code> | Optional fields for user-provided data attached to a person. Size limit is 16KB. |
+
+<a name="Client.face.person.list"></a>
+
+##### person.list(personGroupId) ⇒ <code>Promise</code>
+Lists all persons in a person group, with the person information.
+
+**Kind**: static method of <code>[person](#Client.face.person)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| personGroupId | <code>string</code> | The target person's person group. |
+| options.start | <code>string</code> | List persons from the least personId greater than the "start". It contains no more than 64 characters. Default is empty. |
+| options.top | <code>Number</code> | Optional count of persons to return.  Valid range is [1,1000].  (Default: 1000) |
+
+<a name="Client.face.largePersonGroup"></a>
+
+#### face.largePersonGroup : <code>object</code>
+**Kind**: static namespace of <code>[face](#Client.face)</code>  
+
+* [.largePersonGroup](#Client.face.largePersonGroup) : <code>object</code>
+    * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.create) ⇒ <code>Promise</code>
+    * [.delete(largePersonGroupId)](#Client.face.largePersonGroup.delete) ⇒ <code>Promise</code>
+    * [.get(largePersonGroupId)](#Client.face.largePersonGroup.get) ⇒ <code>Promise</code>
+    * [.trainingStatus(largePersonGroupId)](#Client.face.largePersonGroup.trainingStatus) ⇒ <code>Promise</code>
+    * [.trainingStart(largePersonGroupId)](#Client.face.largePersonGroup.trainingStart) ⇒ <code>Promise</code>
+    * [.update(largePersonGroupId, name, userData)](#Client.face.largePersonGroup.update) ⇒ <code>Promise</code>
+    * [.list(options)](#Client.face.largePersonGroup.list) ⇒ <code>Promise</code>
+
+<a name="Client.face.largePersonGroup.create"></a>
+
+##### largePersonGroup.create(largePersonGroupId, name, userData) ⇒ <code>Promise</code>
+Create a new large person group with user-specified largePersonGroupId, name, and optional userData.
+A large person group is the container of the uploaded person data, including face images and face recognition feature, and up to 1,000,000 people.
+The Identify() method searches person faces in a specified large person group.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | Numbers, en-us letters in lower case, '-', '_'. Max length: 64 |
+| name | <code>string</code> | Person group display name. The maximum length is 128. |
+| userData | <code>string</code> | User-provided data attached to the group. The size limit is 16KB. |
+
+<a name="Client.face.largePersonGroup.delete"></a>
+
+##### largePersonGroup.delete(largePersonGroupId) ⇒ <code>Promise</code>
+Deletes an existing large person group.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | ID of large person group to delete |
+
+<a name="Client.face.largePersonGroup.get"></a>
+
+##### largePersonGroup.get(largePersonGroupId) ⇒ <code>Promise</code>
+Gets an existing large person group.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | ID of large person group to get |
+
+<a name="Client.face.largePersonGroup.trainingStatus"></a>
+
+##### largePersonGroup.trainingStatus(largePersonGroupId) ⇒ <code>Promise</code>
+To check large person group training status completed or still ongoing.
+LargePersonGroup Training is an asynchronous operation triggered by LargePersonGroup - Train API.
+Training time depends on the number of person entries, and their faces in a large person group.
+It could be in seconds, or up to half an hour for 1,000,000 persons.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | ID of large person group to get |
+
+<a name="Client.face.largePersonGroup.trainingStart"></a>
+
+##### largePersonGroup.trainingStart(largePersonGroupId) ⇒ <code>Promise</code>
+Submit a large person group training task.
+Training is a crucial step that only a trained large person group can be used by Face - Identify.
+The training task is an asynchronous task. Training time depends on the number of person entries,
+and their faces in a large person group. It could be in several seconds, or up to half a hour for 1,000,000 persons.
+To check training completion, please use LargePersonGroup - Get Training Status.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | ID of large person group to get |
+
+<a name="Client.face.largePersonGroup.update"></a>
+
+##### largePersonGroup.update(largePersonGroupId, name, userData) ⇒ <code>Promise</code>
+Update an existing large person group's name and userData.
+The properties keep unchanged if they are not in request body.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | ID of large person group to update |
+| name | <code>string</code> | Person group display name. The maximum length is 128. |
+| userData | <code>string</code> | User-provided data attached to the group. The size limit is 16KB. |
+
+<a name="Client.face.largePersonGroup.list"></a>
+
+##### largePersonGroup.list(options) ⇒ <code>Promise</code>
+List all existing large person groups’s largePesonGroupId, name, and userData.
+
+**Kind**: static method of <code>[largePersonGroup](#Client.face.largePersonGroup)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | List opentions |
+| options.start | <code>string</code> | List large person groups from the least largePersonGroupId greater than the "start". It contains no more than 64 characters. Default is empty. |
+| options.top | <code>integer</code> | The number of large person groups to list, ranging in [1, 1000]. Default is 1000. |
+
+<a name="Client.face.largePersonGroupPerson"></a>
+
+#### face.largePersonGroupPerson : <code>object</code>
+**Kind**: static namespace of <code>[face](#Client.face)</code>  
+
+* [.largePersonGroupPerson](#Client.face.largePersonGroupPerson) : <code>object</code>
+    * [.addFace(largePersonGroupId, personId, options)](#Client.face.largePersonGroupPerson.addFace) ⇒ <code>Promise</code>
+    * [.deleteFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.deleteFace) ⇒ <code>Promise</code>
+    * [.updateFace(largePersonGroupId, personId, persistedFaceId, userData)](#Client.face.largePersonGroupPerson.updateFace) ⇒ <code>Promise</code>
+    * [.getFace(largePersonGroupId, personId, persistedFaceId)](#Client.face.largePersonGroupPerson.getFace) ⇒ <code>Promise</code>
+    * [.create(largePersonGroupId, name, userData)](#Client.face.largePersonGroupPerson.create) ⇒ <code>Promise</code>
+    * [.delete(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.delete) ⇒ <code>Promise</code>
+    * [.get(largePersonGroupId, personId)](#Client.face.largePersonGroupPerson.get) ⇒ <code>Promise</code>
+    * [.update(largePersonGroupId, personId, name, userData)](#Client.face.largePersonGroupPerson.update) ⇒ <code>Promise</code>
+    * [.list(largePersonGroupId)](#Client.face.largePersonGroupPerson.list) ⇒ <code>Promise</code>
+
+<a name="Client.face.largePersonGroupPerson.addFace"></a>
+
+##### largePersonGroupPerson.addFace(largePersonGroupId, personId, options) ⇒ <code>Promise</code>
+Add a face image to a person into a large person group for face identification or verification.
+Adding/deleting faces to/from a same person will be processed sequentially.
+Adding/deleting faces to/from different persons are processed in parallel.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person that the face is added to. |
+| options | <code>object</code> | The source specification. |
+| options.url | <code>string</code> | URL to image to be used. |
+| options.path | <code>string</code> | Path to image to be used. |
+| options.data | <code>string</code> | Image as a binary buffer |
+| options.userData | <code>string</code> | Optional. Attach user data to person's face. The maximum length is 1024. |
+| options.targetFace | <code>object</code> | Optional. The rectangle of the face in the image. |
+
+<a name="Client.face.largePersonGroupPerson.deleteFace"></a>
+
+##### largePersonGroupPerson.deleteFace(largePersonGroupId, personId, persistedFaceId) ⇒ <code>Promise</code>
+Delete a face from a person in a large person group.
+Face data and image related to this face entry will be also deleted.
+Adding/deleting faces to/from a same person will be processed sequentially.
+Adding/deleting faces to/from different persons are processed in parallel.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise; successful response is empty  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person that the face is removed from. |
+| persistedFaceId | <code>string</code> | The ID of the face to be deleted. |
+
+<a name="Client.face.largePersonGroupPerson.updateFace"></a>
+
+##### largePersonGroupPerson.updateFace(largePersonGroupId, personId, persistedFaceId, userData) ⇒ <code>Promise</code>
+Update a person persisted face's userData field.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person that the face is updated on. |
+| persistedFaceId | <code>string</code> | The ID of the face to be updated. |
+| userData | <code>string</code> | Optional. Attach user data to person's face. The maximum length is 1024. |
+
+<a name="Client.face.largePersonGroupPerson.getFace"></a>
+
+##### largePersonGroupPerson.getFace(largePersonGroupId, personId, persistedFaceId) ⇒ <code>Promise</code>
+Retrieve person face information.
+The persisted person face is specified by its largePersonGroupId, personId and persistedFaceId.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person that the face is to get from. |
+| persistedFaceId | <code>string</code> | The ID of the face to get. |
+
+<a name="Client.face.largePersonGroupPerson.create"></a>
+
+##### largePersonGroupPerson.create(largePersonGroupId, name, userData) ⇒ <code>Promise</code>
+Create a new person in a specified large person group.
+To add face to this person, please call LargePersonGroup PersonFace - Add.
+The number of persons has a subscription limit. Free subscription amount is 1000 persons.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| name | <code>string</code> | Target person's display name. The maximum length is 128. |
+| userData | <code>string</code> | Optional fields for user-provided data attached to a person. Size limit is 16KB. |
+
+<a name="Client.face.largePersonGroupPerson.delete"></a>
+
+##### largePersonGroupPerson.delete(largePersonGroupId, personId) ⇒ <code>Promise</code>
+Delete an existing person from a large person group.
+All stored person data, and face images in the person entry will be deleted.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person to delete. |
+
+<a name="Client.face.largePersonGroupPerson.get"></a>
+
+##### largePersonGroupPerson.get(largePersonGroupId, personId) ⇒ <code>Promise</code>
+Retrieve a person's name and userData, and the persisted faceIds representing the registered person face image.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person to get. |
+
+<a name="Client.face.largePersonGroupPerson.update"></a>
+
+##### largePersonGroupPerson.update(largePersonGroupId, personId, name, userData) ⇒ <code>Promise</code>
+Updates a person's information.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | largePersonGroupId of the target large person group. |
+| personId | <code>string</code> | The target person's id. |
+| name | <code>string</code> | Target person's display name. The maximum length is 128. |
+| userData | <code>string</code> | Optional fields for user-provided data attached to a person. Size limit is 16KB. |
+
+<a name="Client.face.largePersonGroupPerson.list"></a>
+
+##### largePersonGroupPerson.list(largePersonGroupId) ⇒ <code>Promise</code>
+List all persons’ information in the specified large person group,
+including personId, name, userData and persistedFaceIds of registered person faces.
+
+**Kind**: static method of <code>[largePersonGroupPerson](#Client.face.largePersonGroupPerson)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| largePersonGroupId | <code>string</code> | The target person's person group. |
+| options.start | <code>string</code> | List persons from the least personId greater than the "start". It contains no more than 64 characters. Default is empty. |
+| options.top | <code>Number</code> | Optional count of persons to return.  Valid range is [1,1000].  (Default: 1000) |
+
+<a name="Client.face..detect"></a>
+
+#### face~detect(options) ⇒ <code>Promise</code>
+Call the Face Detected API
+Detects human faces in an image and returns face locations, face landmarks, and
+optional attributes including head-pose, gender, and age. Detection is an essential
+API that provides faceId to other APIs like Identification, Verification,
+and Find Similar.
+
+**Kind**: inner method of <code>[face](#Client.face)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | Options object |
+| options.url | <code>string</code> | URL to image to be used |
+| options.path | <code>string</code> | Path to image to be used |
+| options.data | <code>string</code> | Image as a binary buffer |
+| options.returnFaceId | <code>boolean</code> | Include face ID in response? |
+| options.analyzesAccessories | <code>boolean</code> | Analyze accessories? |
+| options.analyzesAge | <code>boolean</code> | Analyze age? |
+| options.analyzesBlur | <code>boolean</code> | Analyze blur? |
+| options.analyzesEmotion | <code>boolean</code> | Analyze emotions? |
+| options.analyzesExposure | <code>boolean</code> | Analyze expose? |
+| options.analyzesFaceLandmarks | <code>boolean</code> | Analyze face landmarks? |
+| options.analyzesFacialHair | <code>boolean</code> | Analyze facial hair? |
+| options.analyzesGender | <code>boolean</code> | Analyze gender? |
+| options.analyzesGlasses | <code>boolean</code> | Analyze glasses? |
+| options.analyzesHair | <code>boolean</code> | Analyze hair? |
+| options.analyzesHeadPose | <code>boolean</code> | Analyze headpose? |
+| options.analyzesMakeup | <code>boolean</code> | Analyze makeup? |
+| options.analyzesNoise | <code>boolean</code> | Analyze noise? |
+| options.analyzesOcclusion | <code>boolean</code> | Analyze occlusion? |
+| options.analyzesSmile | <code>boolean</code> | Analyze smile? |
+
+<a name="Client.face..similar"></a>
+
+#### face~similar(sourceFace, options) ⇒ <code>Promise</code>
+Detect similar faces using faceIds (as returned from the detect API), or faceListId
+(as returned from the facelist API).
+
+**Kind**: inner method of <code>[face](#Client.face)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sourceFace | <code>string</code> | String of faceId for the source face |
+| options | <code>object</code> | Options object |
+| options.candidateFaces | <code>Array.&lt;string&gt;</code> | Array of faceIds to use as candidates |
+| options.candidateFaceListId | <code>string</code> | Id of face list, created via FaceList.create |
+| options.maxCandidates | <code>Number</code> | Optional max number for top candidates (default is 20, max is 20) |
+| options.mode | <code>string</code> | Optional face searching mode. It can be "matchPerson" or "matchFace" (default is "matchPerson") |
+
+<a name="Client.face..grouping"></a>
+
+#### face~grouping(faces) ⇒ <code>Promise</code>
+Divides candidate faces into groups based on face similarity using faceIds.
+The output is one or more disjointed face groups and a MessyGroup.
+A face group contains the faces that have similar looking, often of the same person.
+There will be one or more face groups ranked by group size, i.e. number of face.
+Faces belonging to the same person might be split into several groups in the result.
+The MessyGroup is a special face group that each face is not similar to any other
+faces in original candidate faces. The messyGroup will not appear in the result if
+all faces found their similar counterparts. The candidate face list has a
+limit of 100 faces.
+
+**Kind**: inner method of <code>[face](#Client.face)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faces | <code>Array.&lt;string&gt;</code> | Array of faceIds to use |
+
+<a name="Client.face..identify"></a>
+
+#### face~identify(faces, options) ⇒ <code>Promise</code>
+1-to-many identification to find the closest matches of the specific query person face(s) from a person group or large person group.
+For each face in the faceIds array, Face Identify will compute similarities between the query face and all the faces in the person group
+(given by personGroupId) or large person group (given by largePersonGroupId), and return candidate person(s)
+for that face ranked by similarity confidence.
+The person group/large person group should be trained to make it ready for identification.
+
+**Kind**: inner method of <code>[face](#Client.face)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faces | <code>Array.&lt;string&gt;</code> | Array of faceIds to use |
+| options | <code>object</code> | Identify options |
+| options.personGroupId | <code>string</code> | Id of person group from which faces will be identified (personGroupId and largePersonGroupId should not be provided at the same time) |
+| options.largePersonGroupId | <code>string</code> | Id of large person group from which faces will be identified (personGroupId and largePersonGroupId should not be provided at the same time) |
+| options.maxNumOfCandidatesReturned | <code>Number</code> | Optional max number of candidates per face (default=1, max=5) |
+| options.confidenceThreshold | <code>Number</code> | Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm). |
+
+<a name="Client.face..verify"></a>
+
+#### face~verify(faces) ⇒ <code>Promise</code>
+Analyzes two faces and determine whether they are from the same person.
+Verification works well for frontal and near-frontal faces.
+For the scenarios that are sensitive to accuracy please use with own judgment.
+
+**Kind**: inner method of <code>[face](#Client.face)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| faces | <code>Array.&lt;string&gt;</code> &#124; <code>object</code> | An array containing two faceIds to use, or an object with the fields faceId, personId, and personGroupId |
+
+<a name="Client.text"></a>
+
+### Client.text : <code>object</code>
+**Kind**: static namespace of <code>[Client](#Client)</code>  
+
+* [.text](#Client.text) : <code>object</code>
+    * [~proof(text, preContextText, postContextText, market)](#Client.text..proof) ⇒ <code>Promise</code>
+    * [~spellCheck(text, preContextText, postContextText, market)](#Client.text..spellCheck) ⇒ <code>Promise</code>
+
+<a name="Client.text..proof"></a>
+
+#### text~proof(text, preContextText, postContextText, market) ⇒ <code>Promise</code>
+Proofs a word or phrase.  Offers Microsoft Office Word-like spelling corrections. Longer phrases can
+be checked, and the result will include casing corrections while avoiding aggressive corrections.
+
+**Kind**: inner method of <code>[text](#Client.text)</code>  
+**Returns**: <code>Promise</code> - - A promise in which the resulting JSON is returned.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| text | <code>string</code> | Word or phrase to spell check. |
+| preContextText | <code>string</code> | Optional context of one or more words preceding the target word/phrase. |
+| postContextText | <code>string</code> | Optional context of one or more words following the target word/phrase. |
+| market | <code>string</code> | Optional market |
+
+<a name="Client.text..spellCheck"></a>
+
+#### text~spellCheck(text, preContextText, postContextText, market) ⇒ <code>Promise</code>
+Spell checks a word or phrase.  Spell checks offers search-engine-like corrections.  Short phrases
+(up to 9 tokens) will be checked, and the result will be optimized for search queries, both in terms
+of performance and relevance.
+
+**Kind**: inner method of <code>[text](#Client.text)</code>  
+**Returns**: <code>Promise</code> - - A promise in which the resulting JSON is returned.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| text | <code>string</code> | Word or phrase to spell check. |
+| preContextText | <code>string</code> | Optional context of one or more words preceding the target word/phrase. |
+| postContextText | <code>string</code> | Optional context of one or more words following the target word/phrase. |
+| market | <code>string</code> | Optional market |
+
+<a name="Client.vision"></a>
+
+### Client.vision : <code>object</code>
+**Kind**: static namespace of <code>[Client](#Client)</code>  
+
+* [.vision](#Client.vision) : <code>object</code>
+    * _static_
+        * [.result](#Client.vision.result)
+            * [.get(operation)](#Client.vision.result.get) ⇒ <code>Promise</code>
+        * [.models](#Client.vision.models) : <code>object</code>
+            * [.list()](#Client.vision.models.list) ⇒ <code>Promise</code>
+            * [.analyzeImage(model, options)](#Client.vision.models.analyzeImage) ⇒ <code>Promise</code>
+    * _inner_
+        * [~analyzeImage(options)](#Client.vision..analyzeImage) ⇒ <code>Promise</code>
+        * [~thumbnail(options)](#Client.vision..thumbnail) ⇒ <code>Promise</code>
+        * [~ocr(options)](#Client.vision..ocr) ⇒ <code>Promise</code>
+        * [~recognizeText(options)](#Client.vision..recognizeText) ⇒ <code>Promise</code>
+
+<a name="Client.vision.result"></a>
+
+#### vision.result
+**Kind**: static property of <code>[vision](#Client.vision)</code>  
+<a name="Client.vision.result.get"></a>
+
+##### result.get(operation) ⇒ <code>Promise</code>
+Checks the result of a text recognition request.  When an operation is deemed completed,
+the status of the returned object should be 'Succeeded' (or, possibly, 'Failed'.) The
+`recognitionResult` contains the result when the operation is complete.
+
+**Kind**: static method of <code>[result](#Client.vision.result)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| operation | <code>Object</code> | Object holding the result URL |
+
+<a name="Client.vision.models"></a>
+
+#### vision.models : <code>object</code>
+**Kind**: static namespace of <code>[vision](#Client.vision)</code>  
+
+* [.models](#Client.vision.models) : <code>object</code>
+    * [.list()](#Client.vision.models.list) ⇒ <code>Promise</code>
+    * [.analyzeImage(model, options)](#Client.vision.models.analyzeImage) ⇒ <code>Promise</code>
+
+<a name="Client.vision.models.list"></a>
+
+##### models.list() ⇒ <code>Promise</code>
+Lists the domain-specific image analysis models.
+
+**Kind**: static method of <code>[models](#Client.vision.models)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+<a name="Client.vision.models.analyzeImage"></a>
+
+##### models.analyzeImage(model, options) ⇒ <code>Promise</code>
+Analyze an image using a domain-specific image classifier.
+
+**Kind**: static method of <code>[models](#Client.vision.models)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| model | <code>string</code> | Name of the model |
+| options | <code>Object</code> | Options object location of the source image |
+| options.url | <code>string</code> | Url to image to be analyzed |
+| options.path | <code>string</code> | Path to image to be analyzed |
+
+<a name="Client.vision..analyzeImage"></a>
+
+#### vision~analyzeImage(options) ⇒ <code>Promise</code>
+This operation does a deep analysis on the given image and then extracts a
+set of rich visual features based on the image content.
+
+**Kind**: inner method of <code>[vision](#Client.vision)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Options object describing features to extract |
+| options.url | <code>string</code> | Url to image to be analyzed |
+| options.path | <code>string</code> | Path to image to be analyzed |
+| options.data | <code>string</code> | Buffer of image to be analyzed |
+| options.ImageType | <code>boolean</code> | Detects if image is clipart or a line drawing. |
+| options.Color | <code>boolean</code> | Determines the accent color, dominant color, if image is black&white. |
+| options.Faces | <code>boolean</code> | Detects if faces are present. If present, generate coordinates, gender and age. |
+| options.Adult | <code>boolean</code> | Detects if image is pornographic in nature (nudity or sex act). Sexually suggestive content is also detected. |
+| options.Categories | <code>boolean</code> | Image categorization; taxonomy defined in documentation. |
+| options.Tags | <code>boolean</code> | Tags the image with a detailed list of words related to the image content. |
+| options.Description | <code>boolean</code> | Describes the image content with a complete English sentence. |
+
+<a name="Client.vision..thumbnail"></a>
+
+#### vision~thumbnail(options) ⇒ <code>Promise</code>
+Generate a thumbnail image to the user-specified width and height. By default, the
+service analyzes the image, identifies the region of interest (ROI), and generates
+smart crop coordinates based on the ROI. Smart cropping is designed to help when you
+specify an aspect ratio that differs from the input image.
+
+**Kind**: inner method of <code>[vision](#Client.vision)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Options object describing features to extract |
+| options.url | <code>string</code> | Url to image to be thumbnailed |
+| options.path | <code>string</code> | Path to image to be thumbnailed |
+| options.data | <code>string</code> | Buffer of image to be analyzed |
+| options.width | <code>number</code> | Width of the thumb in pixels |
+| options.height | <code>number</code> | Height of the thumb in pixels |
+| options.smartCropping | <code>boolean</code> | Should SmartCropping be enabled? |
+| options.pipe | <code>Object</code> | We'll pipe the returned image to this object |
+
+<a name="Client.vision..ocr"></a>
+
+#### vision~ocr(options) ⇒ <code>Promise</code>
+Optical Character Recognition (OCR) detects text in an image and extracts the recognized
+characters into a machine-usable character stream.
+
+**Kind**: inner method of <code>[vision](#Client.vision)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Options object describing features to extract |
+| options.url | <code>string</code> | Url to image to be analyzed |
+| options.path | <code>string</code> | Path to image to be analyzed |
+| options.data | <code>string</code> | Buffer of image to be analyzed |
+| options.language | <code>string</code> | BCP-47 language code of the text to be detected in the image. Default value is "unk", then the service will auto detect the language of the text in the image. |
+| options.detectOrientation | <code>string</code> | Detect orientation of text in the image |
+
+<a name="Client.vision..recognizeText"></a>
+
+#### vision~recognizeText(options) ⇒ <code>Promise</code>
+Recognize text, including hand-written text.
+
+**Kind**: inner method of <code>[vision](#Client.vision)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | Options object describing features to extract |
+| options.url | <code>string</code> | Url to image to be analyzed |
+| options.path | <code>string</code> | Path to image to be analyzed |
+| options.data | <code>string</code> | Buffer of image to be analyzed |
+| options.handwriting | <code>string</code> | Whether the image is of hand-written text.  Default is false. |
+
+<a name="Client.weblm"></a>
+
+### Client.weblm : <code>object</code>
+**Kind**: static namespace of <code>[Client](#Client)</code>  
+
+* [.weblm](#Client.weblm) : <code>object</code>
+    * [~listModels()](#Client.weblm..listModels) ⇒ <code>Promise</code>
+    * [~breakIntoWords(model, text, options)](#Client.weblm..breakIntoWords) ⇒ <code>Promise</code>
+    * [~generateWords(model, words, options)](#Client.weblm..generateWords) ⇒ <code>Promise</code>
+    * [~getJointProbabilities(model, phrases, order)](#Client.weblm..getJointProbabilities) ⇒ <code>Promise</code>
+    * [~getConditionalProbabilities(model, queries, order)](#Client.weblm..getConditionalProbabilities) ⇒ <code>Promise</code>
+
+<a name="Client.weblm..listModels"></a>
+
+#### weblm~listModels() ⇒ <code>Promise</code>
+List available language models for the service currently.
+
+**Kind**: inner method of <code>[weblm](#Client.weblm)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+<a name="Client.weblm..breakIntoWords"></a>
+
+#### weblm~breakIntoWords(model, text, options) ⇒ <code>Promise</code>
+Breaks text in to consituent words
+
+**Kind**: inner method of <code>[weblm](#Client.weblm)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| model | <code>string</code> | Name of model. Currently one of title/anchor/query/body |
+| text | <code>string</code> | Text to break.  E.g. onetwothree |
+| options | <code>Object</code> | Options object |
+| options.order | <code>Number</code> | Optional N-gram order. Default is 5 |
+| options.maxCandidates | <code>Number</code> | Optional maximum candidate count. Default is 5 |
+
+<a name="Client.weblm..generateWords"></a>
+
+#### weblm~generateWords(model, words, options) ⇒ <code>Promise</code>
+Generates a list of candidate of words that would follow the a given sequence of one or more words
+
+**Kind**: inner method of <code>[weblm](#Client.weblm)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| model | <code>string</code> | Name of model. Currently one of title/anchor/query/body |
+| words | <code>string</code> | Text to break.  E.g. 'hello world wide' |
+| options | <code>Object</code> | Options object |
+| options.order | <code>Number</code> | Optional N-gram order. Default is 5 |
+| options.maxCandidates | <code>Number</code> | Optional maximum candidate count. Default is 5 |
+
+<a name="Client.weblm..getJointProbabilities"></a>
+
+#### weblm~getJointProbabilities(model, phrases, order) ⇒ <code>Promise</code>
+Generates a list of candidate of words that would follow the a given sequence of one or more words
+
+**Kind**: inner method of <code>[weblm](#Client.weblm)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| model | <code>string</code> | Name of model. Currently one of title/anchor/query/body |
+| phrases | <code>Array.&lt;string&gt;</code> | One or more phrases for which to look up the probalities of the word sequences |
+| order | <code>Number</code> | Optional N-gram order. Default is 5 |
+
+<a name="Client.weblm..getConditionalProbabilities"></a>
+
+#### weblm~getConditionalProbabilities(model, queries, order) ⇒ <code>Promise</code>
+Generates a list of candidate of words that would follow the a given sequence of one or more words
+
+**Kind**: inner method of <code>[weblm](#Client.weblm)</code>  
+**Returns**: <code>Promise</code> - - Promise resolving with the resulting JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| model | <code>string</code> | Name of model. Currently one of title/anchor/query/body |
+| queries | <code>Array</code> | One of more objects consisting of 'words'/'word' pairs,      where the conditional probability of 'word' in the context of 'words' is computed. |
+| order | <code>Number</code> | Optional N-gram order. Default is 5 |
+
+## License
+Licensed as MIT - please see LICENSE for details.
