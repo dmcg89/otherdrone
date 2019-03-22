@@ -83,5 +83,30 @@ app.get('/clockwise', function(req, res) {
  console.log("Drone Turning Clockwise");
 });
 
+app.get('/forward', function(req, res) {
+ client.front(0.2);
+ console.log("Drone moving forward");
+});
+
+app.get('/backward', function(req, res) {
+ client.back(0.2);
+ console.log("Drone moving backward");
+});
+
+app.get('/left', function(req, res) {
+ client.left(0.2);
+ console.log("Drone Turning left");
+});
+
+app.get('/right', function(req, res) {
+ client.right(0.2);
+ console.log("Drone Turning right");
+});
+
+app.get('/stop', function(req, res) {
+ client.stop();
+ console.log("stop");
+});
+
 app.listen(3000, function () {
 });
