@@ -5,13 +5,15 @@ const app = express();
 module.exports =  function (app) {
 
 const arDrone = require('ar-drone');
-
-const client = arDrone.createClient({ip: '172.30.1.35'});
+//
+// const client = arDrone.createClient({ip: '172.30.1.35'});
+const client = arDrone.createClient();
 
 app.get('/takeoff', function(req, res) {
- client.takeoff();
- console.log("Drone Taking Off");
- });
+  client.takeoff();
+  console.log("Drone Taking Off");
+  res.json({ name: 'takeoff' }) // Maybe we need a response ???
+});
 
 // This router is sending a command to the drone
 // to land
@@ -19,6 +21,7 @@ app.get('/land', function(req, res) {
  client.stop(0);
  client.land();
  console.log("Drone Landing");
+ res.send({ name: 'land' })
 });
 
 // This router is sending a command to the drone
@@ -27,11 +30,14 @@ app.get('/land', function(req, res) {
 app.get('/calibrate', function(req, res) {
  client.calibrate(0);
  console.log("Drone Calibrating");
- });
+ res.send({ name: 'calibrate' })
+});
 
  app.get('/flip', function(req, res) {
-  client.animate('flipBehind', 500);
-  console.log("flip");
+  // client.animate('flipBehind', 50)
+  client.animate('flipLeft', 500);
+    console.log("flip")
+  // res.send({ name: 'flip' })
   });
 
 

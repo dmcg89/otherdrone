@@ -1,18 +1,5 @@
 <html>
-<script language='javascript'>
-  function call(name) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', name, true);
-    xhr.send();
-    location.reload();
-  }
 
- //  window.setInterval("reloadIFrame();", 4000);
- //
- //  function reloadIFrame() {
- //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
- //  }
- // </script>
 
 
 
@@ -27,9 +14,9 @@
         <table cellpadding="4">
           <tr>
             <td align="center">
-              <!-- <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a> -->
+
               <button>
-                <a onclick="call('takeoff');">Take Off</a>
+                <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a>
               </button>
             </td>
           </tr>
@@ -43,10 +30,10 @@
           </tr>
           <tr>
             <td align="center">
-              <!-- <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a> -->
-              <button>
+              <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a>
+              <!-- <button>
                 <a onclick="call('land');">Land</a>
-              </button>
+              </button> -->
             </td>
           </tr>
           <tr>
@@ -76,34 +63,34 @@
 
           <tr>
             <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
-              <button>
+              <a onclick="call('forward');"><img height=70 Width=70 src="http://localhost:3000/forward.png"></a>
+              <!-- <button>
                 <a onclick="call('forward');">Forward</a>
-              </button>
+              </button> -->
             </td>
           </tr>
 
           <tr>
             <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
-              <button>
+              <a onclick="call('backward');"><img height=70 Width=70 src="http://localhost:3000/backward.png"></a>
+              <!-- <button>
                 <a onclick="call('backward');">Backward</a>
-              </button>
+              </button> -->
             </td>
           </tr>
 
           <tr>
             <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
-              <button>
+              <a onclick="call('left');"><img height=70 Width=70 src="http://localhost:3000/left.png"></a>
+              <!-- <button>
                 <a onclick="call('left');">Left</a>
-              </button>
+              </button> -->
             </td>
           </tr>
 
           <tr>
             <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
+              <a onclick="call('right');"><img height=70 Width=70 src="http://localhost:3000/right.png"></a>
               <button>
                 <a onclick="call('right');">Right</a>
               </button>
@@ -147,6 +134,27 @@
   </td>
   </tr>
   </table>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script language='javascript'>
+    function call(name) {
+      // console.log('Call '+name)
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', name, true);
+      xhr.send();
+
+
+   //  window.setInterval("reloadIFrame();", 4000);
+   //
+   //  function reloadIFrame() {
+   //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
+   //  }
+   // </script>
+
+
 </body>
 
 </html>

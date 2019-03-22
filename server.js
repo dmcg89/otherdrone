@@ -1,7 +1,6 @@
 const express = require('express');
 
 const PORT = process.env.PORT || 3000
-// const PORT1 = 8000
 
 const app = express();
 
@@ -12,10 +11,16 @@ const http    = require('http');
 const flights = require('./controllers/flights')(app)
 
 const faces = require('./controllers/faces')(app);
-const arDrone = require('ar-drone');
-const client = arDrone.createClient({ip: '172.30.1.35'});
 
-require('ar-drone-png-stream')(client, { port: 8000 });
+const arDrone = require('ar-drone');
+
+// const client = arDrone.createClient({ip: '172.30.1.35'});
+
+const client = arDrone.createClient();
+
+// require('ar-drone-png-stream')(client, { port: 8000 });
+
+// client.on('navdata', console.log);
 
 app.use(express.static('public'));
 
