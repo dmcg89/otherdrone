@@ -1,132 +1,152 @@
 <html>
 <script language='javascript'>
-function call(name) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', name, true);
-  xhr.send();
-}
+  function call(name) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', name, true);
+    xhr.send();
+    location.reload();
+  }
 
-window.setInterval("reloadIFrame();", 4000);
-function reloadIFrame() {
- document.getElementById("iframe_DroneImage").src="http://localhost:3000/DroneImage.html";
-}
+ //  window.setInterval("reloadIFrame();", 4000);
+ //
+ //  function reloadIFrame() {
+ //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
+ //  }
+ // </script>
 
-</script>
+
+
 <body>
-<table border=1>
-<tr>
-  <td align ="center">
-      <iframe src="http://localhost:3000/DroneImage.html" height="380" width="660" name="iframe_DroneImage"></iframe>
-  </td>
-    <td>
+  <table border=1>
+    <tr>
+      <td align="center">
+        <iframe src="http://localhost:8000" height="380" width="660" name="iframe_DroneImage"></iframe>
+        <!-- <iframe src="http://localhost:3000/DroneImage.html" height="380" width="660" name="iframe_DroneImage"></iframe> -->
+      </td>
+      <td>
         <table cellpadding="4">
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a> -->
               <button>
                 <a onclick="call('takeoff');">Take Off</a>
               </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a> -->
               <button>
                 <a onclick="call('flip');">Flip</a>
               </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a> -->
               <button>
                 <a onclick="call('land');">Land</a>
               </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('photos');"><img height=70 Width=70 src="http://localhost:3000/camera.png"></a> -->
               <button>
                 <a onclick="call('photos');">Photo</a>
               </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('calibrate');"><img height=60 Width=70 src="http://localhost:3000/calibrate.png"></a> -->
               <button>
                 <a onclick="call('calibrate');">Calibrate</a>
               </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('hover');">Hover</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('forward');">Forward</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('backward');">Backward</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('left');">Left</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('right');">Right</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-        <tr>
-          <td align="center">
+          <tr>
+            <td align="center">
               <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('stop');">Stop</a>
               </button>
-          </td>
-        </tr>
+            </td>
+          </tr>
+          <tr>
 
 
-
-        <tr>
-          <td align="center">
-              <!-- <a onclick="call('clockwise');"><img height=70 Width=70 src="http://localhost:3000/clockwise.png"></a> -->
+            <td align="center">
+              <!-- <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a> -->
               <button>
-                <a onclick="call('clockwise');">Clockwise</a>
+                <a onclick="call('up');">up</a>
               </button>
-          </td>
-        </tr>
-        </table>
-     </td>
-</tr>
-</table>
+            </td>
+          </tr>
+      <td align="center">
+        <!-- <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a> -->
+        <button>
+          <a onclick="call('down');">down</a>
+        </button>
+      </td>
+
+    <tr>
+      <td align="center">
+        <!-- <a onclick="call('clockwise');"><img height=70 Width=70 src="http://localhost:3000/clockwise.png"></a> -->
+        <button>
+          <a onclick="call('clockwise');">Clockwise</a>
+        </button>
+      </td>
+    </tr>
+  </table>
+  </td>
+  </tr>
+  </table>
 </body>
+
 </html>
