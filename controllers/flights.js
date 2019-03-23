@@ -46,8 +46,9 @@ app.get('/calibrate', function(req, res) {
 // turning clockwise and you want to stop for
 // example
 app.get('/hover', function(req, res) {
- client.stop(0);
+ client.stop();
  console.log("Hover");
+ res.send({ name: 'hover' })
  });
 
 // Photo route
@@ -84,38 +85,43 @@ app.get('/clockwise', function(req, res) {
 });
 
 app.get('/up', function(req, res) {
- client.up(.1);
+ client.up(.2);
  console.log("drone moving up");
 });
 
 app.get('/down', function(req, res) {
- client.down(.1);
+ client.down(.2);
  console.log("Drone moving down");
 });
 
 app.get('/forward', function(req, res) {
  client.front(0.2);
  console.log("Drone moving forward");
+ res.send({ name: 'forward' })
 });
 
 app.get('/backward', function(req, res) {
  client.back(0.2);
  console.log("Drone moving backward");
+ res.send({ name: 'backward' })
 });
 
 app.get('/left', function(req, res) {
  client.left(0.2);
- console.log("Drone Turning left");
+ console.log("Drone going left");
+ res.send({ name: 'left' })
 });
 
 app.get('/right', function(req, res) {
  client.right(0.2);
- console.log("Drone Turning right");
+ console.log("Drone going right");
+ res.send({ name: 'right' })
 });
 
 app.get('/stop', function(req, res) {
  client.stop();
  console.log("stop");
+ res.send({ name: 'stop' })
 });
 
 }
