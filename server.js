@@ -22,6 +22,9 @@ const client = arDrone.createClient();
 
 // client.on('navdata', console.log);
 
+const autonomy = require('ardrone-autonomy')
+const mission = autonomy.createMission()
+
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {

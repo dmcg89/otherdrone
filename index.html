@@ -22,8 +22,8 @@
   <table border=1>
     <tr>
       <td align="center">
-        <iframe src="http://localhost:8000" height="380" width="660" name="iframe_DroneImage"></iframe>
-        <!-- <iframe src="http://localhost:3000/DroneImage.html" height="380" width="660" name="iframe_DroneImage"></iframe> -->
+        <!-- <iframe src="http://localhost:8000" height="380" width="660" name="iframe_DroneImage"></iframe> -->
+        <iframe src="http://localhost:3000/DroneImage.html" height="380" width="660" name="iframe_DroneImage"></iframe>
       </td>
 
       <td>
@@ -43,10 +43,14 @@
               <a onclick="call('up');"><img height=35 Width=35 src="http://localhost:3000/up.png"></a>
             </button>
           </div>
-          <div class="item4">4</div>
+          <div class="item4">
+            <button>
+              <a onclick="call('calibrate');">Calibrate</a>
+            </button>
+          </div>
           <div class="item5">
             <button>
-              <a onclick="call('land');"><img height=35 Width=35 src="http://localhost:3000/land.png"></a>>
+              <a onclick="call('land');"><img height=35 Width=35 src="http://localhost:3000/land.png"></a>
             </button>
           </div>
           <div class="item6">6</div>
@@ -124,9 +128,7 @@
           <tr>
             <td align="center">
               <!-- <a onclick="call('calibrate');"><img height=60 Width=35 src="http://localhost:3000/calibrate.png"></a> -->
-              <button>
-                <a onclick="call('calibrate');">Calibrate</a>
-              </button>
+
             </td>
           </tr>
           <tr>
