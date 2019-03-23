@@ -4,7 +4,7 @@
   <style>
     .grid-container {
       display: grid;
-      grid-template: 150px / auto auto auto auto auto;
+      grid-template: 75px / auto auto auto auto auto;
       grid-gap: 10px;
       background-color: #2196F3;
       padding: 10px;
@@ -25,56 +25,88 @@
         <iframe src="http://localhost:8000" height="380" width="660" name="iframe_DroneImage"></iframe>
         <!-- <iframe src="http://localhost:3000/DroneImage.html" height="380" width="660" name="iframe_DroneImage"></iframe> -->
       </td>
-      <div class="grid-container">
-        <div class="item1">1</div>
-        <div class="item2">2</div>
-        <div class="item3">
-          <button>
-            <a onclick="call('up');"><img height=70 Width=70 src="http://localhost:3000/up.png"></a>
-          </button>
-        </div>
-        <div class="item4">4</div>
-        <div class="item5">5</div>
-        <div class="item6">6</div>
-        <div class="item7">7</div>
-        <div class="item8">
-          <button>
-            <a onclick="call('forward');"><img height=70 Width=70 src="http://localhost:3000/forward.png"></a>
-          </button>
-        </div>
-        <div class="item10">10</div>
-        <div class="item11">11</div>
-        <div class="item12">12</div>
-        <div class="item13">
-          <button>
-            <a onclick="call('hover');">Hover</a>
-          </button>
-        </div>
-        <div class="item14">14</div>
-        <div class="item15">15</div>
-        <div class="item16">16</div>
-        <div class="item17">17</div>
-        <div class="item18">18</div>
-        <div class="item19">19</div>
-        <div class="item20">20</div>
-        <div class="item21">21</div>
-        <div class="item22">22</div>
-        <div class="item23">23</div>
-        <div class="item24">24</div>
-        <div class="item25">25</div>
-      </div>
+
       <td>
+        <div class="grid-container">
+          <div class="item1">
+            <button>
+              <a onclick="call('takeoff');"><img height=35 Width=35 src="http://localhost:3000/takeoff.png"></a>
+            </button>
+          </div>
+          <div class="item2">
+            <button>
+              <a onclick="call('photos');"><img height=35 Width=35 src="http://localhost:3000/camera.png"></a>
+            </button>
+          </div>
+          <div class="item3">
+            <button>
+              <a onclick="call('up');"><img height=35 Width=35 src="http://localhost:3000/up.png"></a>
+            </button>
+          </div>
+          <div class="item4">4</div>
+          <div class="item5">
+            <button>
+              <a onclick="call('land');"><img height=35 Width=35 src="http://localhost:3000/land.png"></a>>
+            </button>
+          </div>
+          <div class="item6">6</div>
+          <div class="item7">7</div>
+          <div class="item8">
+            <button>
+              <a onclick="call('forward');"><img height=35 Width=35 src="http://localhost:3000/forward.png"></a>
+            </button>
+          </div>
+          <div class="item15">9</div>
+          <div class="item10">10</div>
+          <div class="item11">11</div>
+          <div class="item12">
+            <button>
+              <a onclick="call('left');"><img height=35 Width=35 src="http://localhost:3000/left.png"></a>
+            </button>
+          </div>
+          <div class="item13">
+            <button>
+              <a onclick="call('hover');">Hover</a>
+            </button>
+          </div>
+          <div class="item14">
+            <button>
+              <a onclick="call('right');"><img height=35 Width=35 src="http://localhost:3000/right.png"></a>
+            </button>
+          </div>
+          <div class="item15">
+            <button>
+              <a onclick="call('clockwise');"><img height=35 Width=35 src="http://localhost:3000/clockwise.png"></a>
+            </button>
+          </div>
+          <div class="item16">16</div>
+          <div class="item17">17</div>
+          <div class="item18">
+            <button>
+              <a onclick="call('backward');"><img height=35 Width=35 src="http://localhost:3000/backward.png"></a>
+            </button>
+          </div>
+          <div class="item19">19</div>
+          <div class="item20">20</div>
+          <div class="item21">21</div>
+          <div class="item22">22</div>
+          <div class="item23">
+            <button>
+              <a onclick="call('down');"><img height=35 Width=35 src="http://localhost:3000/down.png"></a>
+            </button>
+          </div>
+          <div class="item24">24</div>
+          <div class="item25">25</div>
+        </div>
         <table cellpadding="4">
           <tr>
             <td align="center">
-              <button>
-                <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/takeoff.png"></a>
-              </button>
+
             </td>
           </tr>
           <tr>
             <td align="center">
-              <!-- <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a> -->
+              <!-- <a onclick="call('land');"><img height=35 Width=35 src="http://localhost:3000/land.png"></a> -->
               <button>
                 <a onclick="call('flip');">Flip</a>
               </button>
@@ -82,21 +114,16 @@
           </tr>
           <tr>
             <td align="center">
-              <button>
-                <a onclick="call('land');"><img height=70 Width=70 src="http://localhost:3000/land.png"></a>>
-              </button>
             </td>
           </tr>
           <tr>
             <td align="center">
-              <button>
-                <a onclick="call('photos');"><img height=70 Width=70 src="http://localhost:3000/camera.png"></a>
-              </button>
+
             </td>
           </tr>
           <tr>
             <td align="center">
-              <!-- <a onclick="call('calibrate');"><img height=60 Width=70 src="http://localhost:3000/calibrate.png"></a> -->
+              <!-- <a onclick="call('calibrate');"><img height=60 Width=35 src="http://localhost:3000/calibrate.png"></a> -->
               <button>
                 <a onclick="call('calibrate');">Calibrate</a>
               </button>
@@ -104,44 +131,13 @@
           </tr>
           <tr>
             <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
+              <!-- <a onclick="call('hover');"><img height=35 Width=35 src="http://localhost:3000/hover.png"></a> -->
 
             </td>
           </tr>
 
-          <tr>
             <td align="center">
-
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <button>
-                <a onclick="call('backward');"><img height=70 Width=70 src="http://localhost:3000/backward.png"></a>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <button>
-                <a onclick="call('left');"><img height=70 Width=70 src="http://localhost:3000/left.png"></a>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <button>
-                <a onclick="call('right');"><img height=70 Width=70 src="http://localhost:3000/right.png"></a>
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <!-- <a onclick="call('hover');"><img height=70 Width=70 src="http://localhost:3000/hover.png"></a> -->
+              <!-- <a onclick="call('hover');"><img height=35 Width=35 src="http://localhost:3000/hover.png"></a> -->
               <button>
                 <a onclick="call('stop');">Stop</a>
               </button>
@@ -155,23 +151,17 @@
             </td>
           </tr>
           <td align="center">
-            <button>
-              <a onclick="call('takeoff');"><img height=70 Width=70 src="http://localhost:3000/down.png"></a>
-            </button>
+
           </td>
 
           <tr>
             <td align="center">
-              <!-- <a onclick="call('clockwise');"><img height=70 Width=70 src="http://localhost:3000/clockwise.png"></a> -->
-              <button>
-                <a onclick="call('clockwise');">Clockwise</a>
-              </button>
+              <!-- <a onclick="call('clockwise');"><img height=35 Width=35 src="http://localhost:3000/clockwise.png"></a> -->
+
             </td>
           </tr>
         </table>
-      </td>
-    </tr>
-  </table>
+</body>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -189,8 +179,8 @@
       //
       //  function reloadIFrame() {
       //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
-      //  }
-      // </script>
+       }
+  </script>
 
 
     </body>
