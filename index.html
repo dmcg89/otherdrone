@@ -9,7 +9,8 @@
   <style>
     .grid-container {
       display: grid;
-      grid-template: 75px / auto auto auto auto auto;
+      /* grid-template: 75px / auto auto auto auto auto; */
+      grid-template-columns: repeat( 5, minmax(75px, 1fr) );
       grid-gap: 10px;
       background-color: #2196F3;
       padding: 10px;
@@ -49,7 +50,7 @@
             </button>
           </div>
           <div class="item4">
-            <button>
+            <button type="button" class="btn btn-dark">
               <a onclick="call('calibrate');">Calibrate</a>
             </button>
           </div>
@@ -78,7 +79,7 @@
             </button>
           </div>
           <div class="item13">
-            <button>
+            <button type="button" class="btn btn-dark">
               <a onclick="call('hover');">Hover</a>
             </button>
           </div>
@@ -114,17 +115,12 @@
           </div>
           <div class="item24">24</div>
           <div class="item25">
-            <button>
+            <button type="button" class="btn btn-dark">
             <a onclick="call('reset');">Reset</a>
           </button>
           </div>
         </div>
         <table cellpadding="4">
-          <tr>
-            <td align="center">
-
-            </td>
-          </tr>
           <tr>
             <td align="center">
               <!-- <a onclick="call('land');"><img height=35 Width=35 src="http://localhost:3000/land.png"></a> -->
@@ -133,17 +129,6 @@
               </button>
             </td>
           </tr>
-
-
-
-
-
-            <td align="center">
-              <!-- <a onclick="call('hover');"><img height=35 Width=35 src="http://localhost:3000/hover.png"></a> -->
-              <button>
-                <a onclick="call('stop');">Stop</a>
-              </button>
-            </td>
           </tr>
         </table>
 
