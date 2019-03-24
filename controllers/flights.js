@@ -10,10 +10,20 @@ const arDrone = require('ar-drone');
 // const client = arDrone.createClient({ip: '172.30.1.35'});
 const client = arDrone.createClient();
 
+client.config('general:navdata_demo', 'FALSE');
+
+client.config('video:video_channel', 0);
+
+
+// client.on('navdata', (data) => {
+//   console.log(data);
+// });
+
 app.get('/takeoff', function(req, res) {
   client.takeoff();
+  client.calibrate(0);
   console.log("Drone Taking Off");
-  res.json({ name: 'takeoff' }) // Maybe we need a response ???
+  res.send({ name: 'takeoff' }) // Maybe we need a response ???
 });
 
 // This router is sending a command to the drone
@@ -36,7 +46,7 @@ app.get('/calibrate', function(req, res) {
 
  app.get('/flip', function(req, res) {
   // client.animate('flipBehind', 50)
-  client.animate('flip', 1000);
+  client.animate('flipAhead', 500);
     console.log('flip')
   res.send({ name: 'flip' })
   });
@@ -49,55 +59,55 @@ app.get('/calibrate', function(req, res) {
 app.get('/hover', function(req, res) {
  client.stop();
  console.log("Hover");
-<<<<<<< HEAD
- res.send({ name: Hover})
-=======
  res.send({ name: 'hover' })
->>>>>>> 3e3f57881ea492d10aabd211d93f37f4774be02d
+
  });
 
 // Photo route
 //required for photos
 const fs = require('fs');
 
-// app.get('/photos', function(req, res) {
-//    console.log("Drone Taking Pictures");
-//    var pngStream = client.getPngStream();
-//    var period = 2000; // Save a frame every 2000 ms.
-//    var lastFrameTime = 0;
-//    pngStream
-//      .on('error', console.log)
-//      .on('data', function(pngBuffer) {
-//         var now = (new Date()).getTime();
-//         if (now - lastFrameTime > period) {
-//            lastFrameTime = now;
-//            fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
-//            if (err) {
-//              console.log("Error saving PNG: " + err);
-//            } else {
-//              console.log("Saved Frame");
-//           }
-//       });
-//      }
-//   });
- // });
+app.get('/photos', function(req, res) {
+   console.log("Drone Taking Pictures");
+   var pngStream = client.getPngStream();
+   var period = 2000; // Save a frame every 2000 ms.
+   var lastFrameTime = 0;
+   pngStream
+     .on('error', console.log)
+     .on('data', function(pngBuffer) {
+        var now = (new Date()).getTime();
+        if (now - lastFrameTime > period) {
+           lastFrameTime = now;
+           fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
+           if (err) {
+             console.log("Error saving PNG: " + err);
+           } else {
+             console.log("Saved Frame");
+          }
+      });
+     }
+  });
+ });
 
 // This router is sending a command to the drone
 // to turn clockwise
 app.get('/clockwise', function(req, res) {
  client.clockwise(0.5);
  console.log("Drone Turning Clockwise");
- res.send({ name: clockwised})
+ res.send({ name: clockwise })
 });
 
 app.get('/up', function(req, res) {
- client.up(.2);
+ client.up(.4);
  console.log("drone moving up");
+ res.send({ name: up})
 });
 
 app.get('/down', function(req, res) {
  client.down(.2);
  console.log("Drone moving down");
+ res.send({ name: down })
+ 
 });
 
 app.get('/forward', function(req, res) {
