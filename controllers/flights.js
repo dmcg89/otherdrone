@@ -5,6 +5,7 @@ const app = express();
 module.exports =  function (app) {
 
 const arDrone = require('ar-drone');
+
 //
 // const client = arDrone.createClient({ip: '172.30.1.35'});
 const client = arDrone.createClient();
@@ -35,9 +36,9 @@ app.get('/calibrate', function(req, res) {
 
  app.get('/flip', function(req, res) {
   // client.animate('flipBehind', 50)
-  client.animate('flipLeft', 500);
-    console.log("flip")
-  // res.send({ name: 'flip' })
+  client.animate('flip', 1000);
+    console.log('flip')
+  res.send({ name: 'flip' })
   });
 
 
@@ -48,6 +49,7 @@ app.get('/calibrate', function(req, res) {
 app.get('/hover', function(req, res) {
  client.stop(0);
  console.log("Hover");
+ res.send({ name: Hover})
  });
 
 // Photo route
@@ -81,6 +83,7 @@ const fs = require('fs');
 app.get('/clockwise', function(req, res) {
  client.clockwise(0.5);
  console.log("Drone Turning Clockwise");
+ res.send({ name: clockwised})
 });
 
 app.get('/up', function(req, res) {
