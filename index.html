@@ -11,7 +11,9 @@ function reloadIFrame() {
  document.getElementById("iframe_DroneImage").src="http://localhost:3000/DroneImage.html";
 }
 
+
 </script>
+<script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <body>
 <table border=1>
 <tr>
@@ -68,9 +70,73 @@ function reloadIFrame() {
               </button>
           </td>
         </tr>
+        <tr>
+          <td align="center">
+              <!-- <a onclick="call('clockwise');"><img height=70 Width=70 src="http://localhost:3000/clockwise.png"></a> -->
+              <button id="startRecognizeOnceAsyncButton">
+                Voice
+              </button>
+          </td>
+        </tr>
         </table>
      </td>
 </tr>
 </table>
+<td align="right" valign="top">Voice Results</td>
+<td><textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea></td>
+<script>
+  // status fields and start button in UI
+  var phraseDiv;
+  var startRecognizeOnceAsyncButton;
+
+  // subscription key and region for speech services.
+  const subscriptionKey = "9320a85db93e4287bfb476d6cfd9e163";
+  const serviceRegion = "westus";
+  var SpeechSDK;
+  var recognizer;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
+    phraseDiv = document.getElementById("phraseDiv");
+
+    startRecognizeOnceAsyncButton.addEventListener("click", function () {
+      startRecognizeOnceAsyncButton.disabled = true;
+      phraseDiv.innerHTML = "";
+
+      // use the provided subscription key
+      const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
+
+      speechConfig.speechRecognitionLanguage = "en-US";
+      var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+      recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+      recognizer.recognizeOnceAsync(
+        function (result) {
+          startRecognizeOnceAsyncButton.disabled = false;
+          phraseDiv.innerHTML += result.text;
+          window.console.log(result);
+
+          recognizer.close();
+          recognizer = undefined;
+        },
+        function (err) {
+          startRecognizeOnceAsyncButton.disabled = false;
+          phraseDiv.innerHTML += err;
+          window.console.log(err);
+
+          recognizer.close();
+          recognizer = undefined;
+        });
+    });
+
+    // // if (!!window.SpeechSDK) {
+    //   SpeechSDK = window.SpeechSDK;
+    //   startRecognizeOnceAsyncButton.disabled = false;
+    //
+    //   document.getElementById('content').style.display = 'block';
+    //   document.getElementById('warning').style.display = 'none';
+    // }
+  });
+</script>
 </body>
 </html>
