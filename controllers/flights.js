@@ -85,6 +85,12 @@ app.get('/clockwise', function(req, res) {
  res.send({ name: 'clockwise' })
 });
 
+app.get('/counterclockwise', function(req, res) {
+ client.counterClockwise(0.5);
+ console.log("Drone Turning counter-clockwise");
+ res.send({ name: 'clockwise' })
+});
+
 app.get('/up', function(req, res) {
  client.up(.1);
  console.log("drone moving up");
@@ -126,6 +132,12 @@ app.get('/stop', function(req, res) {
  client.stop();
  console.log("stop");
  res.send({ name: 'stop' })
+});
+
+app.get('/reset', function(req, res) {
+ client.disableEmergency();
+ console.log("reset emergency landing");
+ res.send({ name: 'reset emergency landing' })
 });
 
 }
