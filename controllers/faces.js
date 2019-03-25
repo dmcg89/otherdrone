@@ -9,6 +9,7 @@ function sleep(milliseconds) {
     }
   }
 }
+
 const say = require('say');
 
 const arDrone = require('ar-drone');
