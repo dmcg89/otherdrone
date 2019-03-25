@@ -6,8 +6,23 @@ module.exports =  function (app) {
 
 const arDrone = require('ar-drone');
 //
-const client = arDrone.createClient({ip: '172.30.1.35'});
+const client = arDrone.createClient({ip: '172.30.1.96'});
 // const client = arDrone.createClient();
+
+// app.get('/follow', function(req, res) {
+//   client.takeoff()
+//
+//   client
+//   .after(1000, function() {
+//     console.log('forward ');
+//     this.front(0.5)
+//   })
+//   .after(5000, function() {
+//     console.log('stop');
+//     this.stop();
+//     res.send('forward')
+//   })
+// })
 
 app.get('/takeoff', function(req, res) {
   client.takeoff();
@@ -70,9 +85,11 @@ app.get('/photos', function(req, res) {
            fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
            if (err) {
              console.log("Error saving PNG: " + err);
-           } else {
-             console.log("Saved Frame");
-          }
+           }
+         // res.send({ name: 'photos'})
+          //   else {
+          //    console.log("Saved Frame");
+          // }
       });
      }
   });
