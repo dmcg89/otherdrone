@@ -102,8 +102,19 @@
           </div>
           <div class="item19">19</div>
           <div class="item20">20</div>
-          <div class="item21">21</div>
-          <div class="item22">22</div>
+          <div class="item21">
+            <button class="btn btn-dark" id="startRecognizeOnceAsyncButton">
+              Voice
+            </button>
+          </div>
+          <div class="item22">
+            <button class="btn btn-dark">
+              <a onclick="call('detect');">
+                <!-- <img height=35 Width=35 src="http://localhost:3000/forward.png"> -->
+                Detect
+              </a>
+            </button>
+          </div>
           <div class="item23">
             <button>
               <a onclick="call('down');"><img height=35 Width=35 src="http://localhost:3000/down.png"></a>
@@ -127,6 +138,8 @@
           </tr>
           </tr>
         </table>
+
+        <textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px" value = "Voice Results"></textarea>
 </body>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -148,7 +161,73 @@
        }
   </script>
 
+  <script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
-    </body>
+  <script>
+  // status fields and start button in UI
+  var phraseDiv;
+  var startRecognizeOnceAsyncButton;
 
-    </html>
+  // subscription key and region for speech services.
+  const subscriptionKey = "9320a85db93e4287bfb476d6cfd9e163";
+  const serviceRegion = "westus";
+  var SpeechSDK;
+  var recognizer;
+
+  document.addEventListener("DOMContentLoaded", function () {
+  startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
+  phraseDiv = document.getElementById("phraseDiv");
+
+  startRecognizeOnceAsyncButton.addEventListener("click", function () {
+  startRecognizeOnceAsyncButton.disabled = true;
+  phraseDiv.innerHTML = "";
+
+  // use the provided subscription key
+  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
+
+  speechConfig.speechRecognitionLanguage = "en-US";
+  var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+  recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+  recognizer.recognizeOnceAsync(
+  function (result) {
+    startRecognizeOnceAsyncButton.disabled = false;
+    phraseDiv.innerHTML += result.text;
+    window.console.log(result);
+    // conditionals
+console.log(result.text)
+    if(result.text == 'Drone take off.'){
+      call('takeoff');
+      return
+    } if (result.text == 'Drone land.') {
+      call('land');
+      return
+    } if  (result.text == 'Drone flip.'){
+      call('flip')
+    }
+
+    recognizer.close();
+    recognizer = undefined;
+  },
+  function (err) {
+    startRecognizeOnceAsyncButton.disabled = false;
+    phraseDiv.innerHTML += err;
+    window.console.log(err);
+
+    recognizer.close();
+    recognizer = undefined;
+  });
+  });
+
+  // // if (!!window.SpeechSDK) {
+  //   SpeechSDK = window.SpeechSDK;
+  //   startRecognizeOnceAsyncButton.disabled = false;
+  //
+  //   document.getElementById('content').style.display = 'block';
+  //   document.getElementById('warning').style.display = 'none';
+  // }
+  });
+  </script>
+</body>
+
+</html>

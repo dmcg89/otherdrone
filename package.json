@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "ffmpeg": "0.0.4",
     "fs": "0.0.1-security",
-    "project-oxford": "^2.0.0"
+    "project-oxford": "^2.0.0",
+    "say": "^0.15.0"
   }
 }

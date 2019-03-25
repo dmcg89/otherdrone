@@ -1,5 +1,6 @@
 var oxford = require('project-oxford');
 var client = new oxford.Client('28d68cd2760e47fc913b7b8619378b84');
+const say = require('say');
 
 function includeASearchFace(groupname,imgpath,personname){
    client.face.faceList.addFace(groupname,{
@@ -24,25 +25,48 @@ function createNewFaceList(ListIdName,ListName){
   });
 }
 
+// function findKnownFaces(DetectId,searchFaceListName){
+//   client.face.similar(DetectId,{
+//     candidateFaceListId : searchFaceListName,
+//     maxNumOfCandidatesReturned: 10,
+//     mode: "matchFace"
+//   }).catch(function(e) {
+//      console.log(e); // "oh, no!"
+//   }).then(function (response) {
+//     console.log(response);
+//    if (response[0] != null) {
+//         if (response[0].confidence > 0.5) {
+//           console.log("Good Match - Found you");
+//           console.log(response);
+//        }
+//    } else {
+//      console.log("Poor or No Match");
+//     console.log(response);
+//   }
+//   });
+// }
+
 function findKnownFaces(DetectId,searchFaceListName){
-  client.face.similar(DetectId,{
-    candidateFaceListId : searchFaceListName,
-    maxNumOfCandidatesReturned: 10,
-    mode: "matchFace"
-  }).catch(function(e) {
-     console.log(e); // "oh, no!"
-  }).then(function (response) {
+ client.face.similar(DetectId,{
+   candidateFaceListId : searchFaceListName,
+   mode: "matchFace"
+ }).catch(function(e) {
+    console.log(e); // "oh, no!"
+ }).then(function (response) {
+  if (response[0] != null) {
+       if (response[0].confidence > 0.3) {
+         say.speak('Hello ' + searchFaceListName)
+         console.log("Good Match - Found you");
+         console.log(response);
+      } else {
+        console.log("Poor match!");
+        console.log(response);
+      }
+  } else {
+    console.log("Poor or No Match");
     console.log(response);
-   if (response[0] != null) {
-        if (response[0].confidence > 0.5) {
-          console.log("Good Match - Found you");
-          console.log(response);
-       }
-   } else {
-     console.log("Poor or No Match");
-    console.log(response);
-  }
-  });
+ }
+ });
 }
 
 function runAll(imageFileName,searchFaceListName){
@@ -61,8 +85,14 @@ module.exports = function (app) {
 
   app.get('/detect', (req, res) => {
 
-    const facelist = 'myfaces'
+    // const facelist = 'myfaces'
 
+    const facelist = ['ryan', 'sam'];
+
+    for( item in facelist){
+     console.log('checking ' + facelist[item])
+     runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist[item])
+   }
     const sam_url = 'https://cdn.filestackcontent.com/QGaBPrdFQnGKLXx9tGlX';
     const ryan_url = 'https://cdn.filestackcontent.com/pZKWut31Qd6uli06dqJw';
 
@@ -73,7 +103,7 @@ module.exports = function (app) {
     //includeASearchFace(facelist,sam_url,'Sam');
     //includeASearchFace(facelist,ryan_url,'Ryan');
 
-    runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist)
+    // runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist)
 
 
 
