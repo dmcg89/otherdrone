@@ -107,7 +107,14 @@
               Voice
             </button>
           </div>
-          <div class="item22">22</div>
+          <div class="item22">
+            <button class="btn btn-dark">
+              <a onclick="call('detect');">
+                <!-- <img height=35 Width=35 src="http://localhost:3000/forward.png"> -->
+                Detect
+              </a>
+            </button>
+          </div>
           <div class="item23">
             <button>
               <a onclick="call('down');"><img height=35 Width=35 src="http://localhost:3000/down.png"></a>
@@ -188,9 +195,15 @@
     phraseDiv.innerHTML += result.text;
     window.console.log(result);
     // conditionals
-
-    if(results.text = 'Drone take off.'){
+console.log(result.text)
+    if(result.text == 'Drone take off.'){
       call('takeoff');
+      return
+    } if (result.text == 'Drone land.') {
+      call('land');
+      return
+    } if  (result.text == 'Drone flip.'){
+      call('flip')
     }
 
     recognizer.close();

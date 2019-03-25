@@ -14,9 +14,9 @@ const faces = require('./controllers/faces')(app);
 
 const arDrone = require('ar-drone');
 
-// const client = arDrone.createClient({ip: '172.30.1.35'});
+const client = arDrone.createClient({ip: '172.30.1.35'});
 
-const client = arDrone.createClient();
+// const client = arDrone.createClient();
 
 // require('ar-drone-png-stream')(client, { port: 8000 });
 

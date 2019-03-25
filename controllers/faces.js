@@ -1,5 +1,6 @@
 var oxford = require('project-oxford');
 var client = new oxford.Client('28d68cd2760e47fc913b7b8619378b84');
+const say = require('say');
 
 function includeASearchFace(groupname,imgpath,personname){
    client.face.faceList.addFace(groupname,{
@@ -24,25 +25,48 @@ function createNewFaceList(ListIdName,ListName){
   });
 }
 
+// function findKnownFaces(DetectId,searchFaceListName){
+//   client.face.similar(DetectId,{
+//     candidateFaceListId : searchFaceListName,
+//     maxNumOfCandidatesReturned: 10,
+//     mode: "matchFace"
+//   }).catch(function(e) {
+//      console.log(e); // "oh, no!"
+//   }).then(function (response) {
+//     console.log(response);
+//    if (response[0] != null) {
+//         if (response[0].confidence > 0.5) {
+//           console.log("Good Match - Found you");
+//           console.log(response);
+//        }
+//    } else {
+//      console.log("Poor or No Match");
+//     console.log(response);
+//   }
+//   });
+// }
+
 function findKnownFaces(DetectId,searchFaceListName){
-  client.face.similar(DetectId,{
-    candidateFaceListId : searchFaceListName,
-    maxNumOfCandidatesReturned: 10,
-    mode: "matchFace"
-  }).catch(function(e) {
-     console.log(e); // "oh, no!"
-  }).then(function (response) {
+ client.face.similar(DetectId,{
+   candidateFaceListId : searchFaceListName,
+   mode: "matchFace"
+ }).catch(function(e) {
+    console.log(e); // "oh, no!"
+ }).then(function (response) {
+  if (response[0] != null) {
+       if (response[0].confidence > 0.3) {
+         say.speak('Hello ' + searchFaceListName)
+         console.log("Good Match - Found you");
+         console.log(response);
+      } else {
+        console.log("Poor match!");
+        console.log(response);
+      }
+  } else {
+    console.log("Poor or No Match");
     console.log(response);
-   if (response[0] != null) {
-        if (response[0].confidence > 0.5) {
-          console.log("Good Match - Found you");
-          console.log(response);
-       }
-   } else {
-     console.log("Poor or No Match");
-    console.log(response);
-  }
-  });
+ }
+ });
 }
 
 function runAll(imageFileName,searchFaceListName){
