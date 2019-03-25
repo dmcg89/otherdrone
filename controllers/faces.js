@@ -85,8 +85,14 @@ module.exports = function (app) {
 
   app.get('/detect', (req, res) => {
 
-    const facelist = 'myfaces'
+    // const facelist = 'myfaces'
 
+    const facelist = ['ryan', 'sam'];
+
+    for( item in facelist){
+     console.log('checking ' + facelist[item])
+     runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist[item])
+   }
     const sam_url = 'https://cdn.filestackcontent.com/QGaBPrdFQnGKLXx9tGlX';
     const ryan_url = 'https://cdn.filestackcontent.com/pZKWut31Qd6uli06dqJw';
 
@@ -97,7 +103,7 @@ module.exports = function (app) {
     //includeASearchFace(facelist,sam_url,'Sam');
     //includeASearchFace(facelist,ryan_url,'Ryan');
 
-    runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist)
+    // runAll('/Users/drew/dev/courses/drone/public/DroneImage.png',facelist)
 
 
 
