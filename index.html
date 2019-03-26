@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <style>
     .grid-container {
@@ -24,6 +25,7 @@
     }
   </style>
 </head>
+
 <body>
   <table border=1>
     <tr>
@@ -127,8 +129,8 @@
           <div class="item24">24</div>
           <div class="item25">
             <button type="button" class="btn btn-dark">
-            <a onclick="call('reset');">Reset</a>
-          </button>
+              <a onclick="call('reset');">Reset</a>
+            </button>
           </div>
         </div>
         <table cellpadding="4">
@@ -140,34 +142,34 @@
               </button>
             </td>
           </tr>
-          </tr>
-        </table>
+    </tr>
+  </table>
 
-        <textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px" value = "Voice Results"></textarea>
+  <textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px" value="Voice Results"></textarea>
 </body>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <script language='javascript'>
-    function call(name) {
-      // console.log('Call '+name)
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', name, true);
-      xhr.send();
+<script language='javascript'>
+  function call(name) {
+    // console.log('Call '+name)
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', name, true);
+    xhr.send();
 
 
-      //  window.setInterval("reloadIFrame();", 4000);
-      //
-      //  function reloadIFrame() {
-      //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
-       }
-  </script>
+    //  window.setInterval("reloadIFrame();", 4000);
+    //
+    //  function reloadIFrame() {
+    //    document.getElementById("iframe_DroneImage").src = "http://localhost:3000/DroneImage.html";
+  }
+</script>
 
-  <script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+<script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
-  <script>
+<script>
   // status fields and start button in UI
   var phraseDiv;
   var startRecognizeOnceAsyncButton;
@@ -178,60 +180,65 @@
   var SpeechSDK;
   var recognizer;
 
-  document.addEventListener("DOMContentLoaded", function () {
-  startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
-  phraseDiv = document.getElementById("phraseDiv");
+  document.addEventListener("DOMContentLoaded", function() {
+    startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
+    phraseDiv = document.getElementById("phraseDiv");
 
-  startRecognizeOnceAsyncButton.addEventListener("click", function () {
-  startRecognizeOnceAsyncButton.disabled = true;
-  phraseDiv.innerHTML = "";
+    startRecognizeOnceAsyncButton.addEventListener("click", function() {
+      startRecognizeOnceAsyncButton.disabled = true;
+      phraseDiv.innerHTML = "";
 
-  // use the provided subscription key
-  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
+      // use the provided subscription key
+      const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
 
-  speechConfig.speechRecognitionLanguage = "en-US";
-  var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-  recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+      speechConfig.speechRecognitionLanguage = "en-US";
+      var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+      recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
-  recognizer.recognizeOnceAsync(
-  function (result) {
-    startRecognizeOnceAsyncButton.disabled = false;
-    phraseDiv.innerHTML += result.text;
-    window.console.log(result);
-    // conditionals
-console.log(result.text)
-    if(result.text == 'Drone take off.'){
-      call('takeoff');
-      return
-    } if (result.text == 'Drone land.') {
-      call('land');
-      return
-    } if  (result.text == 'Drone flip.'){
-      call('flip')
-    }
+      recognizer.recognizeOnceAsync(
+        function(result) {
+          startRecognizeOnceAsyncButton.disabled = false;
+          phraseDiv.innerHTML += result.text;
+          window.console.log(result);
+          // conditionals
+          console.log(result.text);
+          if (result.text == 'Drone take off.') {
+            call('takeoff');
+            return
+          }
+          if (result.text == 'Drone land.') {
+            call('land');
+            return
+          }
+          if (result.text == 'Drone flip.') {
+            call('flip');
+          }
+          if (result.text == 'Foward.') {
+            call('');
+          }
 
-    recognizer.close();
-    recognizer = undefined;
-  },
-  function (err) {
-    startRecognizeOnceAsyncButton.disabled = false;
-    phraseDiv.innerHTML += err;
-    window.console.log(err);
+          recognizer.close();
+          recognizer = undefined;
+        },
+        function(err) {
+          startRecognizeOnceAsyncButton.disabled = false;
+          phraseDiv.innerHTML += err;
+          window.console.log(err);
 
-    recognizer.close();
-    recognizer = undefined;
+          recognizer.close();
+          recognizer = undefined;
+        });
+    });
+
+    // // if (!!window.SpeechSDK) {
+    //   SpeechSDK = window.SpeechSDK;
+    //   startRecognizeOnceAsyncButton.disabled = false;
+    //
+    //   document.getElementById('content').style.display = 'block';
+    //   document.getElementById('warning').style.display = 'none';
+    // }
   });
-  });
-
-  // // if (!!window.SpeechSDK) {
-  //   SpeechSDK = window.SpeechSDK;
-  //   startRecognizeOnceAsyncButton.disabled = false;
-  //
-  //   document.getElementById('content').style.display = 'block';
-  //   document.getElementById('warning').style.display = 'none';
-  // }
-  });
-  </script>
+</script>
 </body>
 
 </html>
