@@ -36,7 +36,7 @@ app.get('/land', function(req, res) {
  client.stop(0);
  client.land();
  console.log("Drone Landing");
- res.send({ name: 'land' })
+ res.send({ name: 'land' });
 });
 
 // This router is sending a command to the drone
