@@ -11,6 +11,7 @@ const client = arDrone.createClient({ip: '172.30.1.35'});
 
 app.get('/takeoff', function(req, res) {
   client.takeoff();
+  client.calibrate(0);
   console.log("Drone Taking Off");
   res.json({ name: 'takeoff' }) // Maybe we need a response ???
 });
