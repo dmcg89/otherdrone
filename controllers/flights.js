@@ -2,160 +2,205 @@ const express = require('express');
 
 const app = express();
 
-module.exports =  function (app) {
+module.exports = function(app) {
 
-const arDrone = require('ar-drone');
-//
-const client = arDrone.createClient({ip: '172.30.1.96'});
-// const client = arDrone.createClient();
+  const arDrone = require('ar-drone');
+  //
+  const client = arDrone.createClient({
+    ip: '172.30.1.96'
+  });
+  // const client = arDrone.createClient();
 
-// app.get('/follow', function(req, res) {
-//   client.takeoff()
-//
-//   client
-//   .after(1000, function() {
-//     console.log('forward ');
-//     this.front(0.5)
-//   })
-//   .after(5000, function() {
-//     console.log('stop');
-//     this.stop();
-//     res.send('forward')
-//   })
-// })
+  // app.get('/follow', function(req, res) {
+  //   client.takeoff()
+  //
+  // client
+  // .after(1000, function() {
+  //   console.log('forward ');
+  //   this.front(0.5)
+  // })
+  // .after(5000, function() {
+  //   console.log('stop');
+  //   this.stop();
+  //   res.send('forward')
+  // })
+  // })
 
-app.get('/takeoff', function(req, res) {
-  client.takeoff();
-  console.log("Drone Taking Off");
-  res.json({ name: 'takeoff' }) // Maybe we need a response ???
-});
+  app.get('/takeoff', function(req, res) {
+    client.takeoff();
+    console.log("Drone Taking Off");
+    res.json({
+      name: 'takeoff'
+    }) // Maybe we need a response ???
+  });
 
-// This router is sending a command to the drone
-// to land
-app.get('/land', function(req, res) {
- client.stop(0);
- client.land();
- console.log("Drone Landing");
- res.send({ name: 'land' });
-});
+  // This router is sending a command to the drone
+  // to land
+  app.get('/land', function(req, res) {
+    client.stop(0);
+    client.land();
+    console.log("Drone Landing");
+    res.send({
+      name: 'land'
+    });
+  });
 
-// This router is sending a command to the drone
-// to calibrate. Causes the drone to fully
-// rotate and balance
-app.get('/calibrate', function(req, res) {
- client.calibrate(0);
- console.log("Drone Calibrating");
- res.send({ name: 'calibrate' })
-});
+  // This router is sending a command to the drone
+  // to calibrate. Causes the drone to fully
+  // rotate and balance
+  app.get('/calibrate', function(req, res) {
+    client.calibrate(0);
+    console.log("Drone Calibrating");
+    res.send({
+      name: 'calibrate'
+    })
+  });
 
- app.get('/flip', function(req, res) {
-  // client.animate('flipBehind', 1000)
-  client.animate('flipLeft', 250);
-  // client.animate('turnaroundGodown', 1000);
+  app.get('/flip', function(req, res) {
+    // client.animate('flipBehind', 1000)
+    client.animate('flipLeft', 250);
+    // client.animate('turnaroundGodown', 1000);
     console.log("flip")
-  res.send({ name: 'flip' })
+    res.send({
+      name: 'flip'
+    })
   });
 
 
- // This router is sending a command to the drone
-// to cancel all existing commands. Important if
-// turning clockwise and you want to stop for
-// example
-app.get('/hover', function(req, res) {
- client.stop();
- console.log("Hover");
- res.send({ name: 'hover' })
- });
+  // This router is sending a command to the drone
+  // to cancel all existing commands. Important if
+  // turning clockwise and you want to stop for
+  // example
+  app.get('/hover', function(req, res) {
+    client.stop();
+    console.log("Hover");
+    res.send({
+      name: 'hover'
+    })
+  });
 
-// Photo route
-//required for photos
-const fs = require('fs');
+  // Photo route
+  //required for photos
+  const fs = require('fs');
 
-app.get('/photos', function(req, res) {
-   console.log("Drone Taking Pictures");
-   var pngStream = client.getPngStream();
-   var period = 2000; // Save a frame every 2000 ms.
-   var lastFrameTime = 0;
-   pngStream
-     .on('error', console.log)
-     .on('data', function(pngBuffer) {
+  app.get('/photos', function(req, res) {
+    console.log("Drone Taking Pictures");
+    var pngStream = client.getPngStream();
+    var period = 2000; // Save a frame every 2000 ms.
+    var lastFrameTime = 0;
+    pngStream
+      .on('error', console.log)
+      .on('data', function(pngBuffer) {
         var now = (new Date()).getTime();
         if (now - lastFrameTime > period) {
-           lastFrameTime = now;
-           fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
-           if (err) {
-             console.log("Error saving PNG: " + err);
-           }
-         // res.send({ name: 'photos'})
-          //   else {
-          //    console.log("Saved Frame");
-          // }
+          lastFrameTime = now;
+          fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
+            if (err) {
+              console.log("Error saving PNG: " + err);
+            }
+            // res.send({ name: 'photos'})
+            //   else {
+            //    console.log("Saved Frame");
+            // }
+          });
+        }
       });
-     }
   });
- });
 
-// This router is sending a command to the drone
-// to turn clockwise
-app.get('/clockwise', function(req, res) {
- client.clockwise(0.5);
- console.log("Drone Turning Clockwise");
- res.send({ name: 'clockwise' })
-});
+  // This router is sending a command to the drone
+  // to turn clockwise
+  app.get('/clockwise', function(req, res) {
+    client.clockwise(0.5);
+    console.log("Drone Turning Clockwise");
+    res.send({
+      name: 'clockwise'
+    })
+  });
 
-app.get('/counterclockwise', function(req, res) {
- client.counterClockwise(0.5);
- console.log("Drone Turning counter-clockwise");
- res.send({ name: 'clockwise' })
-});
+  app.get('/counterclockwise', function(req, res) {
+    client.counterClockwise(0.5);
+    console.log("Drone Turning counter-clockwise");
+    res.send({
+      name: 'clockwise'
+    })
+  });
 
-app.get('/up', function(req, res) {
- client.up(.1);
- console.log("drone moving up");
- res.send({ name: 'up' })
+  app.get('/up', function(req, res) {
+    client.up(.1);
+    console.log("drone moving up");
+    res.send({
+      name: 'up'
+    })
 
-});
+  });
 
-app.get('/down', function(req, res) {
- client.down(.1);
- console.log("Drone moving down");
- res.send({ name: 'down' })
-});
+  app.get('/down', function(req, res) {
+    client.down(.1);
+    console.log("Drone moving down");
+    res.send({
+      name: 'down'
+    })
+  });
 
-app.get('/forward', function(req, res) {
- client.front(0.2);
- console.log("Drone moving forward");
- res.send({ name: 'forward' })
-});
+  app.get('/voiceForward', function(req, res) {
+    client
+      .after(1000, function() {
+        console.log('forward ');
+        this.front(0.5)
+      })
+      .after(5000, function() {
+        console.log('stop');
+        this.stop();
+        res.send('forward')
+      })
+  })
 
-app.get('/backward', function(req, res) {
- client.back(0.2);
- console.log("Drone moving backward");
- res.send({ name: 'backward' })
-});
+  app.get('/forward', function(req, res) {
+    client.front(0.2);
+    console.log("Drone moving forward");
+    res.send({
+      name: 'forward'
+    })
+  });
 
-app.get('/left', function(req, res) {
- client.left(0.2);
- console.log("Drone Turning left");
- res.send({ name: 'left' })
-});
+  app.get('/backward', function(req, res) {
+    client.back(0.2);
+    console.log("Drone moving backward");
+    res.send({
+      name: 'backward'
+    })
+  });
 
-app.get('/right', function(req, res) {
- client.right(0.2);
- console.log("Drone Turning right");
- res.send({ name: 'right' })
-});
+  app.get('/left', function(req, res) {
+    client.left(0.2);
+    console.log("Drone Turning left");
+    res.send({
+      name: 'left'
+    })
+  });
 
-app.get('/stop', function(req, res) {
- client.stop();
- console.log("stop");
- res.send({ name: 'stop' })
-});
+  app.get('/right', function(req, res) {
+    client.right(0.2);
+    console.log("Drone Turning right");
+    res.send({
+      name: 'right'
+    })
+  });
 
-app.get('/reset', function(req, res) {
- client.disableEmergency();
- console.log("reset emergency landing");
- res.send({ name: 'reset emergency landing' })
-});
+  app.get('/stop', function(req, res) {
+    client.stop();
+    console.log("stop");
+    res.send({
+      name: 'stop'
+    })
+  });
+
+  app.get('/reset', function(req, res) {
+    client.disableEmergency();
+    console.log("reset emergency landing");
+    res.send({
+      name: 'reset emergency landing'
+    })
+  });
 
 }
