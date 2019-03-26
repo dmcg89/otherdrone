@@ -13,7 +13,7 @@ app.get('/takeoff', function(req, res) {
   client.takeoff();
   client.calibrate(0);
   console.log("Drone Taking Off");
-  res.json({ name: 'takeoff' }) // Maybe we need a response ???
+  res.json({ name: 'takeoff' }); // Maybe we need a response ???
 });
 
 // This router is sending a command to the drone
@@ -22,7 +22,7 @@ app.get('/land', function(req, res) {
  client.stop(0);
  client.land();
  console.log("Drone Landing");
- res.send({ name: 'land' })
+ res.send({ name: 'land' });
 });
 
 // This router is sending a command to the drone
@@ -31,15 +31,15 @@ app.get('/land', function(req, res) {
 app.get('/calibrate', function(req, res) {
  client.calibrate(0);
  console.log("Drone Calibrating");
- res.send({ name: 'calibrate' })
+ res.send({ name: 'calibrate' });
 });
 
  app.get('/flip', function(req, res) {
-  // client.animate('flipBehind', 1000)
+  // client.animate('flipBehind', 1000);
   client.animate('flipAhead', 250);
   // client.animate('turnaroundGodown', 1000);
-    console.log("flip")
-  res.send({ name: 'flip' })
+    console.log("flip");
+  res.send({ name: 'flip' });
   });
 
 
@@ -50,7 +50,7 @@ app.get('/calibrate', function(req, res) {
 app.get('/hover', function(req, res) {
  client.stop();
  console.log("Hover");
- res.send({ name: 'hover' })
+ res.send({ name: 'hover' });
  });
 
 // Photo route
@@ -85,62 +85,62 @@ app.get('/photos', function(req, res) {
 app.get('/clockwise', function(req, res) {
  client.clockwise(0.5);
  console.log("Drone Turning Clockwise");
- res.send({ name: 'clockwise' })
+ res.send({ name: 'clockwise' });
 });
 
 app.get('/counterclockwise', function(req, res) {
  client.counterClockwise(0.5);
  console.log("Drone Turning counter-clockwise");
- res.send({ name: 'clockwise' })
+ res.send({ name: 'clockwise' });
 });
 
 app.get('/up', function(req, res) {
  client.up(.1);
  console.log("drone moving up");
- res.send({ name: 'up' })
+ res.send({ name: 'up' });
 
 });
 
 app.get('/down', function(req, res) {
  client.down(.1);
  console.log("Drone moving down");
- res.send({ name: 'down' })
+ res.send({ name: 'down' });
 });
 
 app.get('/forward', function(req, res) {
  client.front(0.2);
  console.log("Drone moving forward");
- res.send({ name: 'forward' })
+ res.send({ name: 'forward' });
 });
 
 app.get('/backward', function(req, res) {
  client.back(0.2);
  console.log("Drone moving backward");
- res.send({ name: 'backward' })
+ res.send({ name: 'backward' });
 });
 
 app.get('/left', function(req, res) {
  client.left(0.2);
  console.log("Drone Turning left");
- res.send({ name: 'left' })
+ res.send({ name: 'left' });
 });
 
 app.get('/right', function(req, res) {
  client.right(0.2);
  console.log("Drone Turning right");
- res.send({ name: 'right' })
+ res.send({ name: 'right' });
 });
 
 app.get('/stop', function(req, res) {
  client.stop();
  console.log("stop");
- res.send({ name: 'stop' })
+ res.send({ name: 'stop' });
 });
 
 app.get('/reset', function(req, res) {
  client.disableEmergency();
  console.log("reset emergency landing");
- res.send({ name: 'reset emergency landing' })
+ res.send({ name: 'reset emergency landing' });
 });
 
-}
+};
