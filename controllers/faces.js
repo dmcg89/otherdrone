@@ -8,7 +8,7 @@ function sleep(milliseconds) {
       break;
     }
   }
-}
+};
 
 const say = require('say');
 
@@ -29,7 +29,7 @@ function includeASearchFace(groupname, imgpath, personname) {
     }).then(function() {
       console.log("Face Added");
     });
-}
+};
 
 function createNewFaceList(ListIdName, ListName) {
   oxClient.face.faceList.create(ListIdName, {
@@ -40,7 +40,7 @@ function createNewFaceList(ListIdName, ListName) {
     }).then(function() {
       console.log("Created Your FaceList");
     });
-}
+};
 
 // function findKnownFaces(DetectId,searchFaceListName){
 //   oxClient.face.similar(DetectId,{
@@ -84,7 +84,7 @@ function findKnownFaces(DetectId, searchFaceListName) {
       console.log(response);
     }
   });
-}
+};
 
 function runAll(imageFileName, searchFaceListName) {
   oxClient.face.detect({
@@ -99,7 +99,7 @@ function runAll(imageFileName, searchFaceListName) {
   }).catch(function(e) {
     console.log(`no ${e}`);
   });
-}
+};
 
 module.exports = function(app) {
 
@@ -110,9 +110,9 @@ module.exports = function(app) {
     const facelist = ['ryan', 'sam'];
 
     for (item in facelist) {
-      console.log('checking ' + facelist[item])
+      console.log('checking ' + facelist[item]);
       runAll('/Users/ryansmith/Documents/dev/spd/otherdrone/public/DroneImage.png', facelist[item])
-    }
+    };
     const sam_url = 'https://cdn.filestackcontent.com/QGaBPrdFQnGKLXx9tGlX';
     const ryan_url = 'https://cdn.filestackcontent.com/pZKWut31Qd6uli06dqJw';
 
@@ -142,9 +142,9 @@ module.exports = function(app) {
         console.log(faceY);
         if (faceX <= 155) {
           console.log('moving right');
-          client.left(.2)
+          client.left(.2);
             .after(500, function() {
-              client.stop()
+              client.stop();
             })
             faceInFrame += 1;
         } else if (faceX >= 225) {
@@ -167,4 +167,4 @@ module.exports = function(app) {
     res.send('Face In Frame');
   })
 
-}
+};
