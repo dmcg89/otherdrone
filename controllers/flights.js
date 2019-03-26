@@ -36,7 +36,7 @@ app.get('/calibrate', function(req, res) {
 
  app.get('/flip', function(req, res) {
   // client.animate('flipBehind', 1000)
-  client.animate('flipLeft', 250);
+  client.animate('flipAhead', 250);
   // client.animate('turnaroundGodown', 1000);
     console.log("flip")
   res.send({ name: 'flip' })
@@ -71,9 +71,10 @@ app.get('/photos', function(req, res) {
            fs.writeFile('./public/DroneImage.png', pngBuffer, function(err) {
            if (err) {
              console.log("Error saving PNG: " + err);
-           } else {
-             console.log("Saved Frame");
-          }
+           }
+          //  else {
+          //    console.log("Saved Frame");
+          // }
       });
      }
   });

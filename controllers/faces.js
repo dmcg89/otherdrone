@@ -76,6 +76,7 @@ function runAll(imageFileName,searchFaceListName){
       analyzesGender: true,
       returnFaceId : true
    }).then(function (response) {
+     console.log(response)
       DetectId = response[0].faceId;
       findKnownFaces(DetectId,searchFaceListName);
    });
@@ -129,8 +130,4 @@ module.exports = function (app) {
       console.log('this ran after');
     });*/
   });
-
-    // app.get('/', (req, res) => {
-    //   res.render("index.handlebars");
-    // });
 }
